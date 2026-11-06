@@ -1,0 +1,8 @@
+node_modules
+npm-debug.log
+.git
+.wwebjs_auth
+.wwebjs_cache
+auth_info_baileys
+docker-compose.yml
+Dockerfile

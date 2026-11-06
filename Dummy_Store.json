@@ -1,0 +1,1068 @@
+[
+  {
+    "sid": 1001,
+    "name": "Toko Kelontong Berkah Abadi",
+    "type": "Grocery",
+    "address": "Jl. Fatmawati Raya No. 12, Cilandak Barat",
+    "city": "Jakarta Selatan",
+    "country": "Indonesia",
+    "latitude": -6.2444,
+    "longitude": 106.8006,
+    "image": "https://dietalase.com/Assets/Store_Image/1001_storeImage.webp",
+    "contact": "081298765432",
+    "owner_name": "Haji Ahmad Sobari",
+    "email": "berkah.abadi@gmail.com",
+    "description": "Menyediakan segala jenis kebutuhan pokok, sembako, dan keperluan rumah tangga sehari-hari dengan pelayanan ramah.",
+    "avg_rating": 4.7,
+    "total_visits": 1420,
+    "products": [
+      {
+        "pid": 10001,
+        "name": "Kecap Manis Bango 520ml",
+        "price": 24500,
+        "unit": "pcs",
+        "description": "Kecap manis pilihan keluarga Indonesia yang terbuat dari kedelai hitam berkualitas tinggi.",
+        "image": "https://dietalase.com/Assets/Product_Image/10001_productImage.webp"
+      },
+      {
+        "pid": 10002,
+        "name": "Indomie Goreng Spesial (1 Dus / 40 Pcs)",
+        "price": 118000,
+        "unit": "box",
+        "description": "Paket karton ekonomis mi instan goreng terfavorit di Indonesia, cocok untuk stok rumah tangga atau usaha.",
+        "image": "https://dietalase.com/Assets/Product_Image/10002_productImage.webp"
+      },
+      {
+        "pid": 10003,
+        "name": "Beras Setra Ramos Premium 10kg",
+        "price": 145000,
+        "unit": "pack",
+        "description": "Beras lokal premium Setra Ramos, menghasilkan nasi yang pulen, putih alami, dan beraroma harum tanpa pemutih.",
+        "image": "https://dietalase.com/Assets/Product_Image/10003_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1002,
+    "name": "Selasar Kopi & Roastery",
+    "type": "Food & Beverage",
+    "address": "Jl. Boulevard Barat Raya Blok LC7 No. 12, Kelapa Gading",
+    "city": "Jakarta Utara",
+    "country": "Indonesia",
+    "latitude": -6.162,
+    "longitude": 106.9,
+    "image": "https://dietalase.com/Assets/Store_Image/1002_storeImage.webp",
+    "contact": "081122334455",
+    "owner_name": "Kevin Wijaya",
+    "email": "hello@selasarkopi.com",
+    "description": "Artisan coffee shop dan roastery lokal yang menyajikan biji kopi nusantara pilihan pilihan dengan teknik brewing terbaik.",
+    "avg_rating": 4.9,
+    "total_visits": 3210,
+    "products": [
+      {
+        "pid": 10004,
+        "name": "Es Kopi Susu Gula Aren",
+        "price": 22000,
+        "unit": "cup",
+        "description": "Espresso blend spesial dicampur dengan susu segar dan sirup gula aren murni khas Indonesia, disajikan dingin.",
+        "image": "https://dietalase.com/Assets/Product_Image/10004_productImage.webp"
+      },
+      {
+        "pid": 10005,
+        "name": "Croissant Almond Premium",
+        "price": 28000,
+        "unit": "pcs",
+        "description": "Pastry Prancis klasik yang renyah di luar dan lembut di dalam, dengan isian krim almond melimpah dan taburan kacang almond panggang.",
+        "image": "https://dietalase.com/Assets/Product_Image/10005_productImage.webp"
+      },
+      {
+        "pid": 10006,
+        "name": "Biji Kopi Arabika Gayo 250g",
+        "price": 85000,
+        "unit": "pack",
+        "description": "Biji kopi sangrai (whole beans) Arabika Aceh Gayo dengan profil sangrai medium, memiliki notes cokelat hitam dan rempah.",
+        "image": "https://dietalase.com/Assets/Product_Image/10006_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1003,
+    "name": "Svarna Batik Heritage",
+    "type": "Fashion",
+    "address": "Ruko Puri Indah Blok A No. 5, Kembangan Selatan",
+    "city": "Jakarta Barat",
+    "country": "Indonesia",
+    "latitude": -6.1872,
+    "longitude": 106.7362,
+    "image": "https://dietalase.com/Assets/Store_Image/1003_storeImage.webp",
+    "contact": "085711223344",
+    "owner_name": "Citra Lestari",
+    "email": "info@svarnabatik.id",
+    "description": "Butik premium yang melestarikan warisan budaya melalui koleksi pakaian batik tulis dan cap modern dengan material sutra dan katun berkualitas tinggi.",
+    "avg_rating": 4.8,
+    "total_visits": 850,
+    "products": [
+      {
+        "pid": 10007,
+        "name": "Kemeja Batik Tulis Sutra Men",
+        "price": 1250000,
+        "unit": "pcs",
+        "description": "Kemeja lengan panjang pria berbahan sutra eksklusif dengan motif batik tulis pesisiran yang dibuat handmade oleh pengrajin ahli.",
+        "image": "https://dietalase.com/Assets/Product_Image/10007_productImage.webp"
+      },
+      {
+        "pid": 10008,
+        "name": "Kain Batik Cap Katun Prima (2 Meter)",
+        "price": 180000,
+        "unit": "pcs",
+        "description": "Lembaran kain katun prima halus berukuran 2x1.15 meter dengan motif megamendung, nyaman dipakai untuk bahan kemeja atau terusan.",
+        "image": "https://dietalase.com/Assets/Product_Image/10008_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1004,
+    "name": "Delta Elektronik & Service Komputer",
+    "type": "Electronics",
+    "address": "Jl. Margonda Raya No. 45, Beji (Bordering South Jakarta)",
+    "city": "Depok",
+    "country": "Indonesia",
+    "latitude": -6.3724,
+    "longitude": 106.8322,
+    "image": "https://dietalase.com/Assets/Store_Image/1004_storeImage.webp",
+    "contact": "081344556677",
+    "owner_name": "Rian Hidayat",
+    "email": "delta.elektronik@yahoo.com",
+    "description": "Pusat penjualan komponen komputer, aksesoris gawai, serta layanan perbaikan (service) hardware dan software bergaransi.",
+    "avg_rating": 4.4,
+    "total_visits": 2150,
+    "products": [
+      {
+        "pid": 10009,
+        "name": "Smart Power Strip 4 Sockets + 3 USB",
+        "price": 165000,
+        "unit": "pcs",
+        "description": "Colokan listrik pintar dengan 4 slot universal dan 3 port USB fast charging, dilengkapi proteksi konsleting dan kendali saklar otomatis.",
+        "image": "https://dietalase.com/Assets/Product_Image/10009_productImage.webp"
+      },
+      {
+        "pid": 10010,
+        "name": "Solder Listrik Adjustable 60W Kit",
+        "price": 75000,
+        "unit": "pack",
+        "description": "Paket alat solder listrik 60 Watt dengan pengatur suhu, lengkap dengan 5 mata solder cadangan, dudukan, dan timah solder.",
+        "image": "https://dietalase.com/Assets/Product_Image/10010_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1005,
+    "name": "CV Citra Mandiri Snack (Wholesale Factory)",
+    "type": "Manufacturing & Wholesale",
+    "address": "Kawasan Industri Pulogadung, Jl. Rawa Terate II No. 15",
+    "city": "Jakarta Timur",
+    "country": "Indonesia",
+    "latitude": -6.195,
+    "longitude": 106.91,
+    "image": "https://dietalase.com/Assets/Store_Image/1005_storeImage.webp",
+    "contact": "0214601234",
+    "owner_name": "Hendra Wijaya, SE",
+    "email": "sales@citramandirisnack.co.id",
+    "description": "Pabrik dan supplier berskala UMKM-Plus yang memproduksi aneka keripik tradisional dan camilan nusantara dalam jumlah besar (grosir) untuk pasokan ritel.",
+    "avg_rating": 4.6,
+    "total_visits": 4890,
+    "products": [
+      {
+        "pid": 10011,
+        "name": "Keripik Singkong Balado Pedas (Karton Grosir 5kg)",
+        "price": 320000,
+        "unit": "box",
+        "description": "Pasokan grosir keripik singkong balado bumbu basah merah merona kemasan dus besar 5kg, renyah dan tanpa pengawet buatan.",
+        "image": "https://dietalase.com/Assets/Product_Image/10011_productImage.webp"
+      },
+      {
+        "pid": 10012,
+        "name": "Kacang Bawang Goreng Gurih 1kg",
+        "price": 62000,
+        "unit": "pack",
+        "description": "Kacang tanah kupas goreng dengan bumbu bawang putih asli yang melimpah dan irisan daun jeruk, dikemas vakum agar tetap renyah.",
+        "image": "https://dietalase.com/Assets/Product_Image/10012_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1006,
+    "name": "Apotek Jaya Medika",
+    "type": "Health & Beauty",
+    "address": "Jl. Salemba Raya No. 28, Senen",
+    "city": "Jakarta Pusat",
+    "country": "Indonesia",
+    "latitude": -6.1912,
+    "longitude": 106.8521,
+    "image": "https://dietalase.com/Assets/Store_Image/1006_storeImage.webp",
+    "contact": "0213901234",
+    "owner_name": "Siti Aminah, S.Farm.",
+    "email": "jayamedika.apotek@gmail.com",
+    "description": "Melayani kebutuhan obat resep, vitamin, suplemen kesehatan, dan alat kesehatan habis pakai dengan keaslian produk terjamin.",
+    "avg_rating": 4.6,
+    "total_visits": 1850,
+    "products": [
+      {
+        "pid": 10013,
+        "name": "Sangobion Caps (Box isi 25 Strip)",
+        "price": 115000,
+        "unit": "box",
+        "description": "Suplemen penambah darah dengan zat besi dan vitamin untuk mengatasi anemia akibat kekurangan zat besi.",
+        "image": "https://dietalase.com/Assets/Product_Image/10013_productImage.webp"
+      },
+      {
+        "pid": 10014,
+        "name": "Termometer Digital Omron Eco Temp Smart",
+        "price": 145000,
+        "unit": "pcs",
+        "description": "Alat pengukur suhu tubuh digital dengan ujung fleksibel, hasil akurat dan cepat untuk bayi dan dewasa.",
+        "image": "https://dietalase.com/Assets/Product_Image/10014_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1007,
+    "name": "Bengkel Motor Perkasa Jaya",
+    "type": "Automotive",
+    "address": "Jl. Raya Serpong No. 88, Pondok Jagung",
+    "city": "Tangerang Selatan",
+    "country": "Indonesia",
+    "latitude": -6.2515,
+    "longitude": 106.6663,
+    "image": "https://dietalase.com/Assets/Store_Image/1007_storeImage.webp",
+    "contact": "081288889999",
+    "owner_name": "Agus Riyadi",
+    "email": "perkasajayabengkel@yahoo.com",
+    "description": "Servis rutin, turun mesin, ganti oli, dan penyediaan suku cadang motor matic dan bebek terlengkap.",
+    "avg_rating": 4.5,
+    "total_visits": 920,
+    "products": [
+      {
+        "pid": 10015,
+        "name": "Oli Mesin Shell Advance AX7 Scooter 1L",
+        "price": 68000,
+        "unit": "pcs",
+        "description": "Oli motor matic sintetik performa tinggi untuk akselerasi mulus dan perlindungan mesin optimal.",
+        "image": "https://dietalase.com/Assets/Product_Image/10015_productImage.webp"
+      },
+      {
+        "pid": 10016,
+        "name": "Ban Motor Tubeless Maxxis Victra S98 90/90-14",
+        "price": 310000,
+        "unit": "pcs",
+        "description": "Ban tubeless motor matic ukuran 14 inci dengan pola grip sport untuk performa maksimal di jalan basah dan kering.",
+        "image": "https://dietalase.com/Assets/Product_Image/10016_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1008,
+    "name": "CV Jati Luhur Furniture",
+    "type": "Furniture & Home Living",
+    "address": "Jl. Kalimalang Raya Blok G9 No. 4, Duren Sawit",
+    "city": "Jakarta Timur",
+    "country": "Indonesia",
+    "latitude": -6.241,
+    "longitude": 106.915,
+    "image": "https://dietalase.com/Assets/Store_Image/1008_storeImage.webp",
+    "contact": "02186604321",
+    "owner_name": "Bambang Trimulyo",
+    "email": "sales@jatiluhur-furniture.co.id",
+    "description": "Produsen dan distributor perabot kayu jati asli jepara dan furnitur minimalis modern untuk rumah tangga dan kantor.",
+    "avg_rating": 4.8,
+    "total_visits": 540,
+    "products": [
+      {
+        "pid": 10017,
+        "name": "Meja Makan Kayu Jati Solid 4 Kursi",
+        "price": 4200000,
+        "unit": "pcs",
+        "description": "Satu set meja makan keluarga berbahan 100% kayu jati solid dengan finishing melamin natural rustik, termasuk 4 kursi empuk.",
+        "image": "https://dietalase.com/Assets/Product_Image/10017_productImage.webp"
+      },
+      {
+        "pid": 10018,
+        "name": "Kursi Kerja Kantor Ergonomis Mesh",
+        "price": 850000,
+        "unit": "pcs",
+        "description": "Kursi kantor dengan penopang lumbar, sandaran jaring (mesh) anti gerah, hidrolik pengatur tinggi, dan roda nilon halus.",
+        "image": "https://dietalase.com/Assets/Product_Image/10018_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1009,
+    "name": "Rumah Makan Minang Sayo",
+    "type": "Food & Beverage",
+    "address": "Jl. KH. Mas Mansyur No. 102, Tanah Abang",
+    "city": "Jakarta Pusat",
+    "country": "Indonesia",
+    "latitude": -6.1925,
+    "longitude": 106.8148,
+    "image": "https://dietalase.com/Assets/Store_Image/1009_storeImage.webp",
+    "contact": "081377771234",
+    "owner_name": "Uni Syamsul",
+    "email": "minangsayo.culinary@gmail.com",
+    "description": "Menyajikan masakan otentik Minang cita rasa asli dengan bumbu rempah melimpah yang diwariskan turun-temurun.",
+    "avg_rating": 4.7,
+    "total_visits": 4120,
+    "products": [
+      {
+        "pid": 10019,
+        "name": "Paket Nasi Rendang Daging Sapi Murni",
+        "price": 28000,
+        "unit": "pack",
+        "description": "Nasi rames khas Padang dengan lauk utama satu potong rendang daging sapi empuk, kuah gulai, sayur nangka, dan sambal ijo.",
+        "image": "https://dietalase.com/Assets/Product_Image/10019_productImage.webp"
+      },
+      {
+        "pid": 10020,
+        "name": "Rendang Daging Sapi Kemasan Vakum 500g",
+        "price": 160000,
+        "unit": "pack",
+        "description": "Rendang daging sapi otentik isi 5-6 potong yang dikemas vakum higienis, tahan lama tanpa pengawet, cocok untuk oleh-oleh atau stok travel.",
+        "image": "https://dietalase.com/Assets/Product_Image/10020_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1010,
+    "name": "Lestari Hydroponic Urban Farm",
+    "type": "Grocery",
+    "address": "Jl. Kembangan Raya No. 42, Kembangan Utara",
+    "city": "Jakarta Barat",
+    "country": "Indonesia",
+    "latitude": -6.1722,
+    "longitude": 106.7289,
+    "image": "https://dietalase.com/Assets/Store_Image/1010_storeImage.webp",
+    "contact": "081922446688",
+    "owner_name": "Dian Sastrowijoyo",
+    "email": "info@lestarihydro.farm",
+    "description": "Kebun perkotaan hidroponik modern yang memproduksi sayuran segar bebas pestisida secara harian langsung untuk masyarakat perkotaan.",
+    "avg_rating": 4.9,
+    "total_visits": 680,
+    "products": [
+      {
+        "pid": 10021,
+        "name": "Sayur Selada Hidroponik Segar 250g",
+        "price": 12000,
+        "unit": "pack",
+        "description": "Sayur selada keriting hijau segar dipanen langsung dari kebun hidroponik bersama akarnya untuk menjaga kesegaran optimal.",
+        "image": "https://dietalase.com/Assets/Product_Image/10021_productImage.webp"
+      },
+      {
+        "pid": 10022,
+        "name": "Nutrisi Hidroponik AB Mix Sayuran Daun 1L",
+        "price": 35000,
+        "unit": "pack",
+        "description": "Paket pupuk konsentrat nutrisi makro dan mikro khusus tanaman sayuran daun untuk sistem budidaya hidroponik.",
+        "image": "https://dietalase.com/Assets/Product_Image/10022_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1011,
+    "name": "PT Sinar Utama Plastik (Industrial Packaging)",
+    "type": "Manufacturing & Wholesale",
+    "address": "Kawasan Industri Daan Mogot Km. 19, Kalideres",
+    "city": "Jakarta Barat",
+    "country": "Indonesia",
+    "latitude": -6.1421,
+    "longitude": 106.6984,
+    "image": "https://dietalase.com/Assets/Store_Image/1011_storeImage.webp",
+    "contact": "0215432109",
+    "owner_name": "Ir. Haryanto Wijaya",
+    "email": "sales@sinarutamaplastik.co.id",
+    "description": "Pabrik manufaktur skala besar yang memproduksi berbagai jenis kemasan plastik fleksibel, bubble wrap, dan plastik shrink berkualitas industri.",
+    "avg_rating": 4.5,
+    "total_visits": 3110,
+    "products": [
+      {
+        "pid": 10023,
+        "name": "Bubble Wrap Roll Premium 1.25m x 50m",
+        "price": 145000,
+        "unit": "roll",
+        "description": "Gulungan besar bubble wrap pelindung packing kualitas premium, gelembung tebal tidak gampang pecah, cocok untuk logistik e-commerce.",
+        "image": "https://dietalase.com/Assets/Product_Image/10023_productImage.webp"
+      },
+      {
+        "pid": 10024,
+        "name": "Plastik Stretch Film Wrapping 50cm x 300m",
+        "price": 58000,
+        "unit": "roll",
+        "description": "Plastik wrapping pembungkus palet barang (stretch film) elastis, daya rekat kuat, melindung barang dari debu dan kelembapan saat pengiriman.",
+        "image": "https://dietalase.com/Assets/Product_Image/10024_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1012,
+    "name": "Paws & Claws Pet Zone",
+    "type": "Pet Supplies",
+    "address": "Jl. Kemang Raya No. 14B, Mampang Prapatan",
+    "city": "Jakarta Selatan",
+    "country": "Indonesia",
+    "latitude": -6.275,
+    "longitude": 106.8102,
+    "image": "https://dietalase.com/Assets/Store_Image/1012_storeImage.webp",
+    "contact": "081233445566",
+    "owner_name": "Amanda Putri",
+    "email": "contact@pawsclaws.id",
+    "description": "Supermarket dan pet shop terlengkap yang menyediakan pakan premium, aksesoris unik, serta layanan grooming profesional untuk hewan kesayangan Anda.",
+    "avg_rating": 4.8,
+    "total_visits": 1940,
+    "products": [
+      {
+        "pid": 10025,
+        "name": "Whiskas Dry Adult Cat Food Chicken 1.2kg",
+        "price": 67000,
+        "unit": "pcs",
+        "description": "Makanan kucing kering bernutrisi lengkap rasa ayam untuk kucing dewasa usia 1 tahun ke atas, menjaga kesehatan bulu dan penglihatan.",
+        "image": "https://dietalase.com/Assets/Product_Image/10025_productImage.webp"
+      },
+      {
+        "pid": 10026,
+        "name": "Pasir Kucing Gumpal Bentonit Wangi Lavender 10L",
+        "price": 55000,
+        "unit": "pack",
+        "description": "Pasir kucing gumpal higienis berbahan bentonit alami dengan aroma terapi lavender, daya serap cairan tinggi dan efektif mengunci bau kotoran.",
+        "image": "https://dietalase.com/Assets/Product_Image/10026_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1013,
+    "name": "TB Sinar Mas Bangunan",
+    "type": "Building Materials",
+    "address": "Jl. Raya Kalimalang No. 104, Jaticempaka",
+    "city": "Bekasi",
+    "country": "Indonesia",
+    "latitude": -6.2384,
+    "longitude": 106.9753,
+    "image": "https://dietalase.com/Assets/Store_Image/1013_storeImage.webp",
+    "contact": "0218861234",
+    "owner_name": "Hendra Setiawan",
+    "email": "sinarmasbangunan@gmail.com",
+    "description": "Supplier bahan bangunan terlengkap melayani proyek konstruksi maupun renovasi rumah, menyediakan semen, besi beton, cat dinding, dan pipa universal.",
+    "avg_rating": 4.4,
+    "total_visits": 1560,
+    "products": [
+      {
+        "pid": 10027,
+        "name": "Semen Tiga Roda Portland Pozzolan 50kg",
+        "price": 64000,
+        "unit": "pack",
+        "description": "Semen PC berkualitas tinggi kemasan 50kg, menghasilkan adukan yang lebih rapat, halus, dan tahan lama untuk pengerjaan beton dan plesteran.",
+        "image": "https://dietalase.com/Assets/Product_Image/10027_productImage.webp"
+      },
+      {
+        "pid": 10028,
+        "name": "Cat Tembok Dulux Catylac Interior Putih 5kg",
+        "price": 165000,
+        "unit": "pcs",
+        "description": "Cat dinding interior formula khusus dengan teknologi anti-pudar, memberikan hasil akhir matt yang cerah, daya tutup cat sangat tinggi.",
+        "image": "https://dietalase.com/Assets/Product_Image/10028_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1014,
+    "name": "Patisserie Rasa Sayang",
+    "type": "Food & Beverage",
+    "address": "Jl. Senopati No. 67, Selong, Kebayoran Baru",
+    "city": "Jakarta Selatan",
+    "country": "Indonesia",
+    "latitude": -6.225,
+    "longitude": 106.801,
+    "image": "https://dietalase.com/Assets/Store_Image/1014_storeImage.webp",
+    "contact": "081599887766",
+    "owner_name": "Chef Natasha Putri",
+    "email": "orders@rasasayangbakery.com",
+    "description": "Premium artisan bakery yang memproduksi kue ulang tahun custom, roti jadul mentega premium, dan dessert box kontemporer secara segar setiap pagi.",
+    "avg_rating": 4.9,
+    "total_visits": 2480,
+    "products": [
+      {
+        "pid": 10029,
+        "name": "Roti Sisir Mentega Wisjman Premium",
+        "price": 38000,
+        "unit": "pcs",
+        "description": "Roti sisir tradisional bertekstur sangat lembut beraroma harum, menggunakan olesan mentega Wisjman murni berlimpah yang gurih manis.",
+        "image": "https://dietalase.com/Assets/Product_Image/10029_productImage.webp"
+      },
+      {
+        "pid": 10030,
+        "name": "Classic New York Cheesecake Whole (D-18cm)",
+        "price": 275000,
+        "unit": "pcs",
+        "description": "Kue keju panggang klasik gaya New York berdiameter 18cm, tekstur creamy padat dengan lapisan renyah biskuit graham cracker di bawahnya.",
+        "image": "https://dietalase.com/Assets/Product_Image/10030_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1015,
+    "name": "Kreatif Sablon & Konveksi (MSME Garment)",
+    "type": "Manufacturing & Wholesale",
+    "address": "Jl. Cipinang Muara III No. 42, Jatinegara",
+    "city": "Jakarta Timur",
+    "country": "Indonesia",
+    "latitude": -6.2115,
+    "longitude": 106.9024,
+    "image": "https://dietalase.com/Assets/Store_Image/1015_storeImage.webp",
+    "contact": "087812345678",
+    "owner_name": "Rahmat Hidayat",
+    "email": "kreatifsablon.mfg@gmail.com",
+    "description": "Rumah produksi konveksi sandang yang melayani sablon kaos custom, bordir kemeja komunitas, pembuatan jaket kelas, dan merchandise korporat.",
+    "avg_rating": 4.6,
+    "total_visits": 1130,
+    "products": [
+      {
+        "pid": 10031,
+        "name": "Jasa Sablon Kaos Custom Cotton Combed 30s (Min. 24 Pcs)",
+        "price": 55000,
+        "unit": "pcs",
+        "description": "Paket jasa konveksi pembuatan kaos sablon custom menggunakan bahan katun combed 30s premium standar distro yang adem, dengan jenis sablon plastisol tahan lama.",
+        "image": "https://dietalase.com/Assets/Product_Image/10031_productImage.webp"
+      },
+      {
+        "pid": 10032,
+        "name": "Kemeja PDL / Korsa Komunitas Custom Bahan Drill",
+        "price": 95000,
+        "unit": "pcs",
+        "description": "Pembuatan seragam kemeja lapangan/PDL untuk instansi, mahasiswa, atau komunitas dengan bahan American Drill tebal berpori, gratis bordir komputer 3 titik.",
+        "image": "https://dietalase.com/Assets/Product_Image/10032_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1016,
+    "name": "Klin Laundry Premium & Dry Cleaning",
+    "type": "Grocery",
+    "address": "Jl. Tebet Raya No. 45, Tebet Timur",
+    "city": "Jakarta Selatan",
+    "country": "Indonesia",
+    "latitude": -6.2285,
+    "longitude": 106.8572,
+    "image": "https://dietalase.com/Assets/Store_Image/1016_storeImage.webp",
+    "contact": "081211223399",
+    "owner_name": "Budi Haryono",
+    "email": "tebet@klinlaundry.id",
+    "description": "Layanan cuci premium kiloan dan dry cleaning jas, kebaya, serta sepatu dengan teknologi ramah lingkungan dan pengerjaan cepat.",
+    "avg_rating": 4.6,
+    "total_visits": 1220,
+    "products": [
+      {
+        "pid": 10033,
+        "name": "Jasa Cuci Setrika Kiloan Premium",
+        "price": 12000,
+        "unit": "kg",
+        "description": "Layanan cuci dan setrika reguler menggunakan deterjen ramah lingkungan, wangi tahan lama, disetrika rapi, dan dikemas plastik higienis.",
+        "image": "https://dietalase.com/Assets/Product_Image/10033_productImage.webp"
+      },
+      {
+        "pid": 10034,
+        "name": "Jasa Dry Cleaning Jas Pria (1 Set)",
+        "price": 75000,
+        "unit": "pcs",
+        "description": "Perawatan khusus dry cleaning untuk satu set jas pria (blazer dan celana panjang) menggunakan solvent premium untuk menjaga serat kain.",
+        "image": "https://dietalase.com/Assets/Product_Image/10034_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1017,
+    "name": "Berkat Jaya Steel (Welding & Iron Workshop)",
+    "type": "Manufacturing & Wholesale",
+    "address": "Jl. Kapuk Kamal No. 89, Penjaringan",
+    "city": "Jakarta Utara",
+    "country": "Indonesia",
+    "latitude": -6.1215,
+    "longitude": 106.742,
+    "image": "https://dietalase.com/Assets/Store_Image/1017_storeImage.webp",
+    "contact": "0215566778",
+    "owner_name": "Acong Wijaya",
+    "email": "berkatjayasteel@gmail.com",
+    "description": "Bengkel las konstruksi besi menerima pengerjaan pagar rumah, kanopi, teralis, railing tangga, dan berbagai kebutuhan konstruksi baja ringan.",
+    "avg_rating": 4.5,
+    "total_visits": 430,
+    "products": [
+      {
+        "pid": 10035,
+        "name": "Kanopi Rumah Minimalis Rangka Besi Hollow",
+        "price": 450000,
+        "unit": "pcs",
+        "description": "Pembuatan dan pemasangan kanopi minimalis per meter persegi menggunakan rangka besi hollow antikarat dengan pilihan atap spandek atau polikarbonat.",
+        "image": "https://dietalase.com/Assets/Product_Image/10035_productImage.webp"
+      },
+      {
+        "pid": 10036,
+        "name": "Pagar Besi Tempa Klasik Custom",
+        "price": 850000,
+        "unit": "pcs",
+        "description": "Jasa pembuatan pagar besi tempa bermotif klasik mewah per meter persegi, dikerjakan secara custom sesuai ukuran perimeter rumah konsumen.",
+        "image": "https://dietalase.com/Assets/Product_Image/10036_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1018,
+    "name": "CV Cetak Cepat Digital Printing",
+    "type": "Electronics",
+    "address": "Jl. Matraman Raya No. 122, Matraman",
+    "city": "Jakarta Timur",
+    "country": "Indonesia",
+    "latitude": -6.2012,
+    "longitude": 106.8554,
+    "image": "https://dietalase.com/Assets/Store_Image/1018_storeImage.webp",
+    "contact": "0218590123",
+    "owner_name": "Fahmi Salim",
+    "email": "order@cetakcepat.co.id",
+    "description": "Pusat cetak digital kilat melayani print dokumen, banner, brosur, kartu nama, cetak buku, dan kebutuhan merchandise custom korporat.",
+    "avg_rating": 4.7,
+    "total_visits": 2980,
+    "products": [
+      {
+        "pid": 10037,
+        "name": "Cetak Banner Flexi 280g Custom",
+        "price": 25000,
+        "unit": "pcs",
+        "description": "Cetak banner outdoor per meter persegi menggunakan bahan Flexi China 280 gram berkualitas tinggi, hasil tajam, dan tahan cuaca panas maupun hujan.",
+        "image": "https://dietalase.com/Assets/Product_Image/10037_productImage.webp"
+      },
+      {
+        "pid": 10038,
+        "name": "Kartu Nama Matte Premium (1 Box)",
+        "price": 45000,
+        "unit": "box",
+        "description": "Cetak kartu nama bolak-balik berkualitas tinggi isi 100 lembar menggunakan kertas Art Carton 260g dengan finishing laminasi matte cetak offset.",
+        "image": "https://dietalase.com/Assets/Product_Image/10038_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1019,
+    "name": "Genta Sport & Pemancingan",
+    "type": "Fashion",
+    "address": "Jl. Benyamin Sueb Blok A5, Kemayoran",
+    "city": "Jakarta Pusat",
+    "country": "Indonesia",
+    "latitude": -6.155,
+    "longitude": 106.8425,
+    "image": "https://dietalase.com/Assets/Store_Image/1019_storeImage.webp",
+    "contact": "08551234567",
+    "owner_name": "Heri Gunawan",
+    "email": "gentasport@gmail.com",
+    "description": "Menyediakan perlengkapan olahraga terlengkap mulai dari badminton, sepak bola, hingga alat pancing premium orisinal bergaransi.",
+    "avg_rating": 4.4,
+    "total_visits": 810,
+    "products": [
+      {
+        "pid": 10039,
+        "name": "Raket Badminton Yonex Astrox 88D Play",
+        "price": 820000,
+        "unit": "pcs",
+        "description": "Raket bulutangkis Yonex original seri Astrox 88D Play, sangat cocok untuk pemain tipe menyerang belakang (heavy smash), produk batangan belum termasuk senar.",
+        "image": "https://dietalase.com/Assets/Product_Image/10039_productImage.webp"
+      },
+      {
+        "pid": 10040,
+        "name": "Joran Pancing Shimano FX Spinning 210cm",
+        "price": 245000,
+        "unit": "pcs",
+        "description": "Joran pancing type spinning merk Shimano seri FX panjang 2.1 meter, kuat, lentur, cocok untuk memancing di kolam tawar maupun laut dangkal.",
+        "image": "https://dietalase.com/Assets/Product_Image/10040_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1020,
+    "name": "Maju Tani Agro Hub",
+    "type": "Grocery",
+    "address": "Jl. Raya Puspitek No. 12, Setu",
+    "city": "Tangerang Selatan",
+    "country": "Indonesia",
+    "latitude": -6.3482,
+    "longitude": 106.6714,
+    "image": "https://dietalase.com/Assets/Store_Image/1020_storeImage.webp",
+    "contact": "081199001122",
+    "owner_name": "Ir. Joko Susilo",
+    "email": "majutaniagro@outlook.com",
+    "description": "Pusat penyedia bibit tanaman unggul, media tanam premium, pupuk organik, dan perlengkapan hidroponik skala hobi hingga industri pertanian perkotaan.",
+    "avg_rating": 4.8,
+    "total_visits": 1340,
+    "products": [
+      {
+        "pid": 10041,
+        "name": "Pupuk Organik Kompos Super NPK Berkah 5kg",
+        "price": 25000,
+        "unit": "pack",
+        "description": "Pupuk organik kompos siap pakai hasil fermentasi mikroba yang diperkaya unsur hara NPK alami untuk merangsang pertumbuhan daun dan pembuahan tanaman.",
+        "image": "https://dietalase.com/Assets/Product_Image/10041_productImage.webp"
+      },
+      {
+        "pid": 10042,
+        "name": "Bibit Pohon Mangga Harum Manis Okulasi",
+        "price": 45000,
+        "unit": "pcs",
+        "description": "Bibit tanaman hidup pohon mangga Harum Manis hasil perkembangbiakan okulasi unggul setinggi 50-60cm dalam polybag, cepat berbuah dan tahan penyakit.",
+        "image": "https://dietalase.com/Assets/Product_Image/10042_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1021,
+    "name": "Catering Ibu Djoko",
+    "type": "Food & Beverage",
+    "address": "Jl. Kebon Jeruk Raya No. 14, Kebon Jeruk",
+    "city": "Jakarta Barat",
+    "country": "Indonesia",
+    "latitude": -6.1923,
+    "longitude": 106.7725,
+    "image": "https://dietalase.com/Assets/Store_Image/1021_storeImage.webp",
+    "contact": "081255554321",
+    "owner_name": "Hajah Hartati Djoko",
+    "email": "catering.ibudjoko@gmail.com",
+    "description": "Menerima pesanan nasi kotak, tumpeng besar, prasmanan pesta, dan katering harian kantoran dengan cita rasa masakan rumah tradisional yang higienis.",
+    "avg_rating": 4.8,
+    "total_visits": 3100,
+    "products": [
+      {
+        "pid": 10043,
+        "name": "Paket Nasi Kotak Ayam Bakar Taliwang",
+        "price": 35000,
+        "unit": "pack",
+        "description": "Nasi kotak premium lengkap dengan ayam bakar bumbu Taliwang pedas khas Lombok, plecing kangkung, sambal beberuk, dan tahu goreng.",
+        "image": "https://dietalase.com/Assets/Product_Image/10043_productImage.webp"
+      },
+      {
+        "pid": 10044,
+        "name": "Tumpeng Mini Kuning Berkah",
+        "price": 45000,
+        "unit": "pcs",
+        "description": "Nasi tumpeng kuning porsi personal berbentuk kerucut mini, dilengkapi dengan ayam suwir, perkedel, kering tempe, telur dadar iris, dan sambal goreng.",
+        "image": "https://dietalase.com/Assets/Product_Image/10044_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1022,
+    "name": "PT Natural Estetika Nusantara (Skincare Lab)",
+    "type": "Health & Beauty",
+    "address": "Jl. Pluit Selatan Raya No. 5, Penjaringan",
+    "city": "Jakarta Utara",
+    "country": "Indonesia",
+    "latitude": -6.1189,
+    "longitude": 106.7963,
+    "image": "https://dietalase.com/Assets/Store_Image/1022_storeImage.webp",
+    "contact": "0216612345",
+    "owner_name": "Dr. Elena Salim",
+    "email": "production@naturalestetika.co.id",
+    "description": "Produsen dan maklon kosmetik berstandar CPKB dan BPOM, memformulasi produk perawatan kulit (skincare) berbahan dasar herbal organik lokal.",
+    "avg_rating": 4.7,
+    "total_visits": 1540,
+    "products": [
+      {
+        "pid": 10045,
+        "name": "Face Serum Glow Niacinamide 10% (Bulk 1L)",
+        "price": 850000,
+        "unit": "pcs",
+        "description": "Pasokan cairan serum wajah konsentrat Niacinamide 10% dalam kemasan dirigen harian 1 Liter, siap untuk pengemasan ulang (repacking) brand klinik kecantikan.",
+        "image": "https://dietalase.com/Assets/Product_Image/10045_productImage.webp"
+      },
+      {
+        "pid": 10046,
+        "name": "Sabun Mandi Cair Organik Serai 500ml",
+        "price": 48000,
+        "unit": "pcs",
+        "description": "Sabun mandi cair aromaterapi minyak serai murni, membersihkan kulit secara menyeluruh sekaligus melembapkan dan menangkal bakteri.",
+        "image": "https://dietalase.com/Assets/Product_Image/10046_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1023,
+    "name": "Vertex Custom PC & Server Hub",
+    "type": "Electronics",
+    "address": "Mangga Dua Mall, Lantai 3 Blok B No. 45, Sawah Besar",
+    "city": "Jakarta Pusat",
+    "country": "Indonesia",
+    "latitude": -6.1345,
+    "longitude": 106.8242,
+    "image": "https://dietalase.com/Assets/Store_Image/1023_storeImage.webp",
+    "contact": "081977889900",
+    "owner_name": "Albert Christian",
+    "email": "sales@vertexcomputer.id",
+    "description": "Spesialis perakitan PC Gaming high-end, workstation rendering profesional, serta penyediaan perangkat server dan jaringan untuk kebutuhan IT korporat.",
+    "avg_rating": 4.9,
+    "total_visits": 2890,
+    "products": [
+      {
+        "pid": 10047,
+        "name": "Kipas Fan Case PC 120mm ARGB PWM",
+        "price": 125000,
+        "unit": "pcs",
+        "description": "Kipas pendingin casing komputer ukuran 120mm dilengkapi lampu addressable RGB (ARGB) 5V 3-pin dan kendali kecepatan cerdas PWM.",
+        "image": "https://dietalase.com/Assets/Product_Image/10047_productImage.webp"
+      },
+      {
+        "pid": 10048,
+        "name": "Switch Network Hub 8-Port Gigabit Ethernet",
+        "price": 320000,
+        "unit": "pcs",
+        "description": "Alat pembagi jaringan internet (switch hub) desktop dengan 8 port RJ45 berkecepatan gigabit 10/100/1000Mbps, casing material besi kokoh.",
+        "image": "https://dietalase.com/Assets/Product_Image/10048_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1024,
+    "name": "Sanggar Kerajinan Rotan Mandiri",
+    "type": "Furniture & Home Living",
+    "address": "Jl. Raya Bogor Km. 26, Ciracas",
+    "city": "Jakarta Timur",
+    "country": "Indonesia",
+    "latitude": -6.3251,
+    "longitude": 106.8684,
+    "image": "https://dietalase.com/Assets/Store_Image/1024_storeImage.webp",
+    "contact": "085611224455",
+    "owner_name": "Suryadi Pramono",
+    "email": "rotanmandiri.craft@yahoo.com",
+    "description": "Pusat kerajinan anyaman rotan asli dekorasi rumah, memproduksi set meja kursi teras, pembatas ruangan, dan keranjang penyimpanan estetis.",
+    "avg_rating": 4.6,
+    "total_visits": 780,
+    "products": [
+      {
+        "pid": 10049,
+        "name": "Kursi Teras Rotan Alami Bohemian",
+        "price": 450000,
+        "unit": "pcs",
+        "description": "Kursi santai teras berlengan model lingkaran bohemian, dianyam handmade menggunakan rotan alami pilihan yang kuat dan dilapisi anti rayap.",
+        "image": "https://dietalase.com/Assets/Product_Image/10049_productImage.webp"
+      },
+      {
+        "pid": 10050,
+        "name": "Keranjang Baju Laundry Rotan Besar",
+        "price": 160000,
+        "unit": "pcs",
+        "description": "Keranjang pakaian kotor anyaman rotan berbentuk silinder tinggi besar dilengkapi penutup atas dan kain furing bagian dalam yang bisa dilepas cuci.",
+        "image": "https://dietalase.com/Assets/Product_Image/10050_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1025,
+    "name": "UD Baja Semesta Logam",
+    "type": "Building Materials",
+    "address": "Jl. Cakung Cilincing Raya No. 34, Cakung",
+    "city": "Jakarta Timur",
+    "country": "Indonesia",
+    "latitude": -6.1685,
+    "longitude": 106.9452,
+    "image": "https://dietalase.com/Assets/Store_Image/1025_storeImage.webp",
+    "contact": "0214409876",
+    "owner_name": "Iwan Setiadi",
+    "email": "bajasemestalogam@gmail.com",
+    "description": "Pemasok skala besar besi beton, baja ringan, atap spandek, pipa besi hitam, kawat bronjong, dan pelat besi struktural untuk fabrikasi proyek konstruksi.",
+    "avg_rating": 4.5,
+    "total_visits": 1920,
+    "products": [
+      {
+        "pid": 10051,
+        "name": "Besi Beton Ulir D12 SNI (Panjang 12 Meter)",
+        "price": 115000,
+        "unit": "pcs",
+        "description": "Besi beton ulir (deformed bar) diameter nominal 12mm standar SNI panjang 12 meter, material utama struktural kolom balok beton bertulang bangunan.",
+        "image": "https://dietalase.com/Assets/Product_Image/10051_productImage.webp"
+      },
+      {
+        "pid": 10052,
+        "name": "Atap Spandek Galvalum G300 Tebal 0.3mm",
+        "price": 52000,
+        "unit": "meter",
+        "description": "Atap gelombang spandek zinc-aluminum galvalum tebal 0.30mm, anti karat, ringan, kuat, ideal untuk atap kanopi rumah maupun gudang pabrik besar.",
+        "image": "https://dietalase.com/Assets/Product_Image/10052_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1026,
+    "name": "Medina Hijab & Muslim Wear",
+    "type": "Fashion",
+    "address": "Pusat Grosir Tanah Abang Blok A Lt. 1 No. 58",
+    "city": "Jakarta Pusat",
+    "country": "Indonesia",
+    "latitude": -6.1878,
+    "longitude": 106.8124,
+    "image": "https://dietalase.com/Assets/Store_Image/1026_storeImage.webp",
+    "contact": "081388990011",
+    "owner_name": "Siti Hasanah",
+    "email": "medina.tanahabang@gmail.com",
+    "description": "Grosir dan eceran jilbab segi empat, pashmina premium, dan gamis syar'i modis berkualitas tinggi langsung dari konveksi tangan pertama.",
+    "avg_rating": 4.7,
+    "total_visits": 4150,
+    "products": [
+      {
+        "pid": 10053,
+        "name": "Hijab Segi Empat Voal Premium",
+        "price": 45000,
+        "unit": "pcs",
+        "description": "Kerudung segi empat berbahan ultra-fine voal ukuran 115x115cm, tegak di dahi, tidak pekak di telinga, dan tersedia dalam berbagai variasi warna pastel.",
+        "image": "https://dietalase.com/Assets/Product_Image/10053_productImage.webp"
+      },
+      {
+        "pid": 10054,
+        "name": "Pashmina Silk Plisket Cradenza",
+        "price": 65000,
+        "unit": "pcs",
+        "description": "Hijab pashmina panjang berbahan sutra cradenza bertekstur plisket lidi halus berkerut mewah dengan efek kilau elegan, sangat jatuh dan mudah dibentuk.",
+        "image": "https://dietalase.com/Assets/Product_Image/10054_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1027,
+    "name": "Apex Auto Detailing & Ceramic Coating",
+    "type": "Automotive",
+    "address": "Jl. Radio Dalam Raya No. 102, Kebayoran Baru",
+    "city": "Jakarta Selatan",
+    "country": "Indonesia",
+    "latitude": -6.2489,
+    "longitude": 106.7904,
+    "image": "https://dietalase.com/Assets/Store_Image/1027_storeImage.webp",
+    "contact": "0217254321",
+    "owner_name": "Raymond Hartanto",
+    "email": "contact@apexdetailing.id",
+    "description": "Layanan perawatan kosmetik kendaraan premium, salon mobil interior-exterior, poles multi-stage paint correction, dan proteksi lapisan nano ceramic coating 9H.",
+    "avg_rating": 4.9,
+    "total_visits": 870,
+    "products": [
+      {
+        "pid": 10055,
+        "name": "Paket Paint Correction + Nano Ceramic Coating 9H (Mobil Sedang)",
+        "price": 3500000,
+        "unit": "pcs",
+        "description": "Paket pengerjaan poles 3 tahap untuk menghilangkan baret halus dan swirl mark, dilapisi 3 layer nano ceramic coating 9H bergaransi 3 tahun untuk kilau efek daun talas permanen.",
+        "image": "https://dietalase.com/Assets/Product_Image/10055_productImage.webp"
+      },
+      {
+        "pid": 10056,
+        "name": "Cairan Car Wash Shampoo Wax Premium 1L",
+        "price": 85000,
+        "unit": "pcs",
+        "description": "Sampo pencuci mobil formula pH balance premium dengan kandungan carnauba wax murni, aman untuk lapisan coating dan memberikan kilau instan setelah dicuci.",
+        "image": "https://dietalase.com/Assets/Product_Image/10056_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1028,
+    "name": "Toko Surya Makmur Listrik",
+    "type": "Electronics",
+    "address": "Jl. Kenari Raya Blok B No. 12, Senen",
+    "city": "Jakarta Pusat",
+    "country": "Indonesia",
+    "latitude": -6.1915,
+    "longitude": 106.8458,
+    "image": "https://dietalase.com/Assets/Store_Image/1028_storeImage.webp",
+    "contact": "0213192456",
+    "owner_name": "Hendra Susanto",
+    "email": "suryamakmurlistrik@gmail.com",
+    "description": "Supplier grosir dan eceran alat-alat instalasi listrik bangunan, panel listrik industri, kabel tembaga SNI, lampu LED hemat energi, dan komponen kelistrikan terlengkap.",
+    "avg_rating": 4.5,
+    "total_visits": 2130,
+    "products": [
+      {
+        "pid": 10057,
+        "name": "Kabel Listrik NYM Supreme 3x2.5mm (Roll 50 Meter)",
+        "price": 820000,
+        "unit": "roll",
+        "description": "Kabel tembaga instalasi listrik rumah tangga tipe NYM isi 3 core diameter tembaga 2.5mm standar SNI merek Supreme original, lapisan isolasi PVC putih tebal aman tertanam di dinding.",
+        "image": "https://dietalase.com/Assets/Product_Image/10057_productImage.webp"
+      },
+      {
+        "pid": 10058,
+        "name": "Miniature Circuit Breaker (MCB) Schneider 16A DomAE",
+        "price": 65000,
+        "unit": "pcs",
+        "description": "Alat pengaman pembatas arus listrik sirkuit tunggal (1 Phase) daya 16 Ampere tipe DomAE Schneider Electric original, efektif mencegah bahaya kebakaran akibat korsleting.",
+        "image": "https://dietalase.com/Assets/Product_Image/10058_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1029,
+    "name": "Ayam Goreng Kampung H. Mardun",
+    "type": "Food & Beverage",
+    "address": "Jl. Jatinegara Timur No. 84, Balester, Jatinegara",
+    "city": "Jakarta Timur",
+    "country": "Indonesia",
+    "latitude": -6.223,
+    "longitude": 106.8682,
+    "image": "https://dietalase.com/Assets/Store_Image/1029_storeImage.webp",
+    "contact": "081299998811",
+    "owner_name": "Haji Mardun",
+    "email": "ayamgoreng.mardun@yahoo.com",
+    "description": "Kuliner legendaris masakan Betawi asli menyajikan ayam goreng kampung bumbu kuning tradisional ungkep kelapa, disajikan hangat dengan sambal terasi ulek gurih.",
+    "avg_rating": 4.8,
+    "total_visits": 5420,
+    "products": [
+      {
+        "pid": 10059,
+        "name": "Paket Ayam Goreng Kampung Utuh (1 Ekor)",
+        "price": 95000,
+        "unit": "pcs",
+        "description": "Satu ekor ayam kampung utuh (termasuk ati ampela dan ceker) yang sudah diungkep bumbu kuning rempah rahasia lalu digoreng garing merata, renyah di luar dan empuk juicy di dalam, lengkap dengan kremesan lengkuas.",
+        "image": "https://dietalase.com/Assets/Product_Image/10059_productImage.webp"
+      },
+      {
+        "pid": 10060,
+        "name": "Sambal Terasi Ulek Matang (Toples 200g)",
+        "price": 30000,
+        "unit": "pcs",
+        "description": "Sambal terasi goreng ulek khas Betawi buatan rumah kemasan botol kaca jar premium higienis, dibuat dari cabai rawit segar pilihan, tomat merah, dan terasi udang premium aroma tajam.",
+        "image": "https://dietalase.com/Assets/Product_Image/10060_productImage.webp"
+      }
+    ]
+  },
+  {
+    "sid": 1030,
+    "name": "CV Indo Kreasi Pack (Corrugated Box Factory)",
+    "type": "Manufacturing & Wholesale",
+    "address": "Kawasan Industri Marunda Blok C3 No. 8, Cilincing",
+    "city": "Jakarta Utara",
+    "country": "Indonesia",
+    "latitude": -6.1084,
+    "longitude": 106.9421,
+    "image": "https://dietalase.com/Assets/Store_Image/1030_storeImage.webp",
+    "contact": "0214483210",
+    "owner_name": "Gunawan Pranoto",
+    "email": "marketing@indokreasipack.co.id",
+    "description": "Pabrik produsen kemasan kardus kustom berskala menengah, memproduksi karton boks gelombang (corrugated box) ukuran kustom untuk logistik pengiriman, e-commerce harian, dan kemasan arsip arsip korporat.",
+    "avg_rating": 4.6,
+    "total_visits": 1640,
+    "products": [
+      {
+        "pid": 10061,
+        "name": "Kardus Polos E-Commerce Tipe Die Cut (Paket Grosir 100 Pcs)",
+        "price": 180000,
+        "unit": "pack",
+        "description": "Paket bundel 100 lembar boks kardus packing e-commerce model die-cut lipat otomatis ukuran 20x10x5cm, bahan single wall corrugated kaku ketebalan E-flute premium keras, pelindung paket aman dikirim kurir ekspedisi.",
+        "image": "https://dietalase.com/Assets/Product_Image/10061_productImage.webp"
+      },
+      {
+        "pid": 10062,
+        "name": "Kardus Karton Box Arsip File Dokumen Besar",
+        "price": 22000,
+        "unit": "pcs",
+        "description": "Kardus arsip file dokumen tebal model pisah (body + tutup terpisah) ukuran standar kantor 40x32x28cm dilengkapi lubang pegangan kanan kiri, muat hingga 5 buah ordner file besar ring binder.",
+        "image": "https://dietalase.com/Assets/Product_Image/10062_productImage.webp"
+      }
+    ]
+  }
+]

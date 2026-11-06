@@ -1,0 +1,10 @@
+{
+  "ignore": [
+    "auth_info_baileys/*",
+    ".wwebjs_auth/*",
+    ".wwebjs_cache/*",
+    "*.log",
+    "public/*",
+    "storage/*"
+  ]
+}

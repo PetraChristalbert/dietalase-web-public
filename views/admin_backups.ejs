@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Backups - Atelier Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background-color: #fff8f5; color: #4a3728; }
+        .bg-earthy { background-color: #6f4627; }
+        .text-earthy { color: #6f4627; }
+        .border-earthy { border-color: #6f4627; }
+    </style>
+</head>
+<body class="flex bg-[#fff8f5]">
+    <%- include('partials/admin_sidebar') %>
+
+    <main class="flex-grow ml-80 p-12 min-h-screen">
+        <div class="max-w-[1400px] mx-auto space-y-12">
+            
+            <!-- Header -->
+            <div>
+                <h1 class="text-4xl font-bold text-earthy tracking-tight">System Backups & Recovery</h1>
+                <p class="text-gray-500 mt-2">Manage automated archives and perform critical system rollbacks.</p>
+            </div>
+
+            <!-- Section 1: Backup History -->
+            <div class="bg-white rounded-[32px] p-8 shadow-sm border border-orange-50">
+                <h2 class="text-2xl font-bold text-earthy mb-6 flex items-center gap-3">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Backup History
+                </h2>
+                
+                <% if (history && history.length > 0) { %>
+                    <div class="overflow-x-auto rounded-2xl border border-orange-50">
+                        <table class="w-full text-left bg-white">
+                            <thead class="bg-orange-50/50">
+                                <tr class="text-xs text-gray-500 uppercase tracking-wider">
+                                    <th class="px-6 py-4 font-semibold">Date Created</th>
+                                    <th class="px-6 py-4 font-semibold">Archive Name</th>
+                                    <th class="px-6 py-4 font-semibold">Size</th>
+                                    <th class="px-6 py-4 font-semibold">Status</th>
+                                    <th class="px-6 py-4 font-semibold text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-orange-50">
+                                <% history.forEach(backup => { %>
+                                    <tr class="hover:bg-orange-50/30 transition-colors group">
+                                        <td class="px-6 py-4 font-medium"><%= new Date(backup.created_at).toLocaleString() %></td>
+                                        <td class="px-6 py-4 text-gray-600 font-mono text-sm"><%= backup.filename %></td>
+                                        <td class="px-6 py-4"><%= (backup.file_size_bytes / (1024 * 1024)).toFixed(2) %> MB</td>
+                                        <td class="px-6 py-4">
+                                            <% if (backup.status === 'success') { %>
+                                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold flex items-center inline-flex gap-1"><span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span> Success</span>
+                                            <% } else { %>
+                                                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold flex items-center inline-flex gap-1"><span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span> Failed</span>
+                                            <% } %>
+                                        </td>
+                                        <td class="px-6 py-4 text-right space-x-2">
+                                            <a href="/admin/api/backups/download/<%= backup.filename %>" class="inline-flex items-center gap-1 text-earthy hover:text-orange-600 font-bold text-sm bg-white border border-gray-200 px-4 py-2 rounded-xl transition-all hover:border-orange-200 hover:shadow-sm">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                                Download
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } else { %>
+                    <div class="text-center py-16 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                        <p class="font-bold text-gray-500">No backups recorded yet.</p>
+                        <p class="text-sm mt-1 text-gray-400">The system will automatically backup every 3 days.</p>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- Section 2: Emergency Rollback -->
+            <div class="bg-red-50 rounded-[32px] p-8 border border-red-100 shadow-sm relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-8 opacity-10 text-red-600 pointer-events-none">
+                    <svg class="w-48 h-48" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+
+                <div class="relative z-10">
+                    <h2 class="text-2xl font-bold text-red-700 mb-2 flex items-center gap-3">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        Emergency System Recovery (Rollback)
+                    </h2>
+                    <p class="text-red-600/80 mb-8 max-w-3xl">
+                        Warning: Executing a rollback will instantly overwrite the live database and all user storage files. The server will restart automatically.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        
+                        <!-- Card 1: Local Restore -->
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-red-100 hover:border-red-300 transition-all flex flex-col">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 bg-green-50 text-green-500 rounded-xl flex items-center justify-center">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                                </div>
+                                <h3 class="font-bold text-earthy text-lg">Local Server Restore</h3>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-4 flex-grow">Restore using an archive already sitting securely on the local server storage.</p>
+                            
+                            <div class="space-y-3">
+                                <% if (localFiles && localFiles.length > 0) { %>
+                                    <select id="localFileSelect" class="w-full p-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-red-100 outline-none bg-gray-50">
+                                        <option value="" disabled selected>Select an archive...</option>
+                                        <% localFiles.forEach(file => { %>
+                                            <option value="<%= file %>"><%= file %></option>
+                                        <% }) %>
+                                    </select>
+                                    <button onclick="submitRestore('/admin/api/backups/restore/local/', 'localFileSelect')" class="w-full bg-white text-red-600 border-2 border-red-200 font-bold py-3 rounded-xl hover:bg-red-50 transition-all flex justify-center items-center gap-2">
+                                        Rollback Local
+                                    </button>
+                                <% } else { %>
+                                    <div class="w-full p-3 rounded-xl border border-gray-200 text-sm bg-gray-50 text-gray-400 text-center">No local archives available</div>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: GCS Restore -->
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-red-100 hover:border-red-300 transition-all flex flex-col">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                                </div>
+                                <h3 class="font-bold text-earthy text-lg">Google Cloud Restore</h3>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-4 flex-grow">Download an archive from your GCS bucket and apply it directly.</p>
+                            
+                            <div class="space-y-3">
+                                <% if (gcsFiles && gcsFiles.length > 0) { %>
+                                    <select id="gcsFileSelect" class="w-full p-3 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-red-100 outline-none bg-gray-50">
+                                        <option value="" disabled selected>Select an archive...</option>
+                                        <% gcsFiles.forEach(file => { %>
+                                            <option value="<%= file %>"><%= file %></option>
+                                        <% }) %>
+                                    </select>
+                                    <button onclick="submitRestore('/admin/api/backups/restore/gcs/', 'gcsFileSelect')" class="w-full bg-white text-red-600 border-2 border-red-200 font-bold py-3 rounded-xl hover:bg-red-50 transition-all flex justify-center items-center gap-2">
+                                        Fetch & Rollback
+                                    </button>
+                                <% } else { %>
+                                    <div class="w-full p-3 rounded-xl border border-gray-200 text-sm bg-gray-50 text-gray-400 text-center">No GCS archives found</div>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Manual Upload -->
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-red-100 hover:border-red-300 transition-all flex flex-col">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 bg-purple-50 text-purple-500 rounded-xl flex items-center justify-center">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                                </div>
+                                <h3 class="font-bold text-earthy text-lg">Custom File Upload</h3>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-4 flex-grow">Upload a specific `.tar.gz` archive from your computer to overwrite the system.</p>
+                            
+                            <form id="uploadForm" onsubmit="submitUploadRestore(event)" class="space-y-3">
+                                <div class="relative">
+                                    <input type="file" id="backupFile" accept=".tar.gz" class="w-full p-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100" required>
+                                </div>
+                                <button type="submit" class="w-full bg-white text-red-600 border-2 border-red-200 font-bold py-3 rounded-xl hover:bg-red-50 transition-all flex justify-center items-center gap-2">
+                                    Upload & Rollback
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        async function submitRestore(baseUrl, selectId) {
+            const selectElement = document.getElementById(selectId);
+            const filename = selectElement.value;
+            
+            if (!filename || filename.trim() === '') {
+                alert("Please select an archive from the dropdown first.");
+                return;
+            }
+            
+            const url = baseUrl + filename;
+
+            if(!confirm("CRITICAL WARNING:\n\nAre you ABSOLUTELY SURE you want to perform this rollback? This will PERMANENTLY OVERWRITE all current data and images. The system will restart immediately.")) return;
+            
+            try {
+                const response = await fetch(url, { method: 'POST' });
+                const result = await response.json();
+                if(result.success) {
+                    alert("Rollback started! The page will become unresponsive as the server restarts.");
+                    setTimeout(() => location.reload(), 10000);
+                } else {
+                    alert("Error: " + result.message);
+                }
+            } catch (e) {
+                alert("Request complete (The server may have already restarted). Check logs if unsure.");
+            }
+        }
+
+        async function submitUploadRestore(e) {
+            e.preventDefault();
+            if(!confirm("CRITICAL WARNING:\n\nAre you ABSOLUTELY SURE you want to perform this rollback? This will PERMANENTLY OVERWRITE all current data and images. The system will restart immediately.")) return;
+
+            const fileInput = document.getElementById('backupFile');
+            const formData = new FormData();
+            formData.append('backupArchive', fileInput.files[0]);
+
+            try {
+                const response = await fetch('/admin/api/backups/restore/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if(result.success) {
+                    alert("Upload successful. Rollback started! The system will restart.");
+                    setTimeout(() => location.reload(), 10000);
+                } else {
+                    alert("Error: " + result.message);
+                }
+            } catch (e) {
+                alert("Request complete (The server may have already restarted). Check logs if unsure.");
+            }
+        }
+    </script>
+</body>
+</html>

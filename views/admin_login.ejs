@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelier Admin | Entrance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background-color: #fff8f5; }
+        .bg-earthy { background-color: #6f4627; }
+        .text-earthy { color: #6f4627; }
+        .border-earthy { border-color: #6f4627; }
+    </style>
+</head>
+<body class="h-screen flex items-center justify-center p-6">
+    <div class="max-w-md w-full bg-white rounded-[40px] shadow-2xl p-10 border border-orange-50">
+        <!-- Logo/Header -->
+        <div class="text-center mb-10">
+            <div class="w-20 h-20 bg-orange-50 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                <svg class="w-10 h-10 text-earthy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold text-earthy">Atelier Curator</h1>
+            <p class="text-gray-400 mt-2">Identify yourself to enter the Command Center.</p>
+        </div>
+
+        <% if (error) { %>
+            <div class="mb-6 p-4 bg-red-50 rounded-2xl border border-red-100 flex items-center gap-3">
+                <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                <p class="text-red-700 text-sm font-medium"><%= error %></p>
+            </div>
+        <% } %>
+
+        <form id="loginForm" action="/admin/login" method="POST" class="space-y-6">
+            <input type="hidden" name="telemetry" id="telemetryField">
+            <div>
+                <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Username</label>
+                <input type="text" name="username" required class="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-earthy focus:bg-white transition-all outline-none text-earthy font-medium text-sm" placeholder="admin">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Secret Key</label>
+                <input type="password" name="password" required class="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-earthy focus:bg-white transition-all outline-none text-earthy font-medium text-sm" placeholder="••••••••">
+            </div>
+
+            <!-- Telemetry Capture Console Card -->
+            <div id="telemetryCard" class="p-5 bg-orange-50/50 rounded-3xl border border-orange-100/50 flex flex-col gap-2 transition-all duration-700 overflow-hidden">
+                <div class="flex items-center gap-3">
+                    <span id="telemetryPing" class="w-2 h-2 bg-orange-500 rounded-full animate-ping shrink-0"></span>
+                    <span id="telemetryStatus" class="text-[10px] uppercase font-extrabold text-orange-600 tracking-wider">Memindai Telemetry Akses...</span>
+                </div>
+                <div id="telemetryDetails" class="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-gray-500 font-medium mt-1 opacity-40 transition-all duration-700">
+                    <div>IP: <span class="font-bold text-earthy" id="telemetryIp">-</span></div>
+                    <div>Lokasi: <span class="font-bold text-earthy" id="telemetryLoc">-</span></div>
+                    <div>Sistem: <span class="font-bold text-earthy" id="telemetryOs">-</span></div>
+                    <div>Layar: <span class="font-bold text-earthy" id="telemetryScreen">-</span></div>
+                </div>
+            </div>
+
+            <button id="submitBtn" type="submit" class="w-full bg-earthy text-white py-5 rounded-2xl font-bold text-base shadow-xl shadow-orange-200/50 hover:shadow-orange-300/60 transform active:scale-[0.98] transition-all opacity-50 pointer-events-none">
+                Enter Command Center
+            </button>
+        </form>
+
+        <p class="text-center text-[10px] uppercase tracking-widest text-gray-400 font-bold mt-10">© 2026 DiEtalase Ecosystem • Security Protocol V2</p>
+    </div>
+
+    <script>
+        const getOS = () => {
+            const ua = navigator.userAgent;
+            if (ua.indexOf("Win") !== -1) return "Windows";
+            if (ua.indexOf("Mac") !== -1) return "macOS";
+            if (ua.indexOf("Linux") !== -1) return "Linux";
+            if (ua.indexOf("Android") !== -1) return "Android";
+            if (ua.indexOf("like Mac") !== -1) return "iOS";
+            return "Unknown OS";
+        };
+
+        const getBrowser = () => {
+            const ua = navigator.userAgent;
+            if (ua.indexOf("Chrome") !== -1) return "Chrome";
+            if (ua.indexOf("Safari") !== -1) return "Safari";
+            if (ua.indexOf("Firefox") !== -1) return "Firefox";
+            if (ua.indexOf("Edge") !== -1) return "Edge";
+            return "Browser";
+        };
+
+        // Populate dynamic static hardware details
+        const telemetry = {
+            os: getOS(),
+            browser: getBrowser(),
+            screen: `${screen.width}x${screen.height}`,
+            location: 'Unknown',
+            ip: 'Unknown'
+        };
+
+        document.getElementById('telemetryOs').textContent = telemetry.os;
+        document.getElementById('telemetryScreen').textContent = telemetry.screen;
+
+        // Perform fast public GeoIP query
+        fetch('https://ipapi.co/json/')
+            .then(res => res.json())
+            .then(data => {
+                telemetry.ip = data.ip || 'Unknown';
+                telemetry.location = `${data.city || ''}, ${data.region || ''}, ${data.country_name || ''}`;
+                
+                document.getElementById('telemetryIp').textContent = telemetry.ip;
+                document.getElementById('telemetryLoc').textContent = telemetry.location;
+                
+                // Enhance Telemetry UI Card to Success green styling
+                const card = document.getElementById('telemetryCard');
+                const ping = document.getElementById('telemetryPing');
+                const status = document.getElementById('telemetryStatus');
+                const details = document.getElementById('telemetryDetails');
+
+                card.className = "p-5 bg-green-50/40 rounded-3xl border border-green-100 flex flex-col gap-2 transition-all duration-700 overflow-hidden";
+                ping.className = "w-2 h-2 bg-green-500 rounded-full shrink-0";
+                status.className = "text-[10px] uppercase font-extrabold text-green-700 tracking-wider";
+                status.textContent = "Telemetry Akses Berhasil Diamankan";
+                details.className = "grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-gray-500 font-semibold mt-1 opacity-100 transition-all duration-700";
+
+                // Bind payload and enable login button
+                document.getElementById('telemetryField').value = JSON.stringify(telemetry);
+                const btn = document.getElementById('submitBtn');
+                btn.className = "w-full bg-earthy text-white py-5 rounded-2xl font-bold text-base shadow-xl shadow-orange-200/50 hover:shadow-orange-300/60 transform active:scale-[0.98] transition-all";
+            })
+            .catch(err => {
+                console.warn("GeoIP query blocked or offline. Falling back to local data.", err);
+                
+                // Fail-safe payload generation
+                document.getElementById('telemetryField').value = JSON.stringify(telemetry);
+                
+                const card = document.getElementById('telemetryCard');
+                const ping = document.getElementById('telemetryPing');
+                const status = document.getElementById('telemetryStatus');
+                const details = document.getElementById('telemetryDetails');
+
+                card.className = "p-5 bg-orange-50/30 rounded-3xl border border-orange-100 flex flex-col gap-2 transition-all duration-700 overflow-hidden";
+                ping.className = "w-2 h-2 bg-orange-500 rounded-full shrink-0 animate-pulse";
+                status.className = "text-[10px] uppercase font-extrabold text-orange-700 tracking-wider";
+                status.textContent = "Telemetry Sebagian Berhasil Diamankan";
+                details.className = "grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-gray-500 font-semibold mt-1 opacity-80 transition-all duration-700";
+
+                const btn = document.getElementById('submitBtn');
+                btn.className = "w-full bg-earthy text-white py-5 rounded-2xl font-bold text-base shadow-xl shadow-orange-200/50 hover:shadow-orange-300/60 transform active:scale-[0.98] transition-all";
+            });
+    </script>
+</body>
+</html>

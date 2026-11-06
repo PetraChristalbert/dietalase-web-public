@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Settings | Atelier Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background-color: #fff8f5; color: #4a3728; }
+        .bg-earthy { background-color: #6f4627; }
+        .text-earthy { color: #6f4627; }
+        .toggle-checkbox:checked { right: 0; border-color: #6f4627; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #6f4627; }
+    </style>
+</head>
+<body class="flex bg-[#fff8f5]">
+    <%- include('partials/admin_sidebar') %>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow ml-80 p-12 min-h-screen">
+        <div class="max-w-[1000px] mx-auto">
+            
+            <!-- Header -->
+            <div class="mb-12">
+                <h1 class="text-4xl font-bold text-earthy tracking-tight text-center md:text-left">System Configurations</h1>
+                <p class="text-gray-500 mt-2 text-center md:text-left">Control global platform behaviors and AI operations.</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-8">
+                <!-- AI Moderation Card -->
+                <div class="bg-white rounded-[32px] p-8 shadow-sm border border-orange-50">
+                    <div class="flex items-center justify-between mb-8">
+                        <div class="flex items-center gap-6">
+                            <div class="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-600">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-earthy">AI Auto-Moderation</h3>
+                                <p class="text-sm text-gray-400">When enabled, all new products are held for AI triage before going live.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Toggle Switch -->
+                        <div class="relative inline-block w-16 mr-2 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" name="toggle" id="ai-toggle" <%= settings.ai_moderation_enabled === 'true' ? 'checked' : '' %> class="toggle-checkbox absolute block w-8 h-8 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300 right-8 checked:right-0 border-gray-300"/>
+                            <label for="ai-toggle" class="toggle-label block overflow-hidden h-8 rounded-full bg-gray-300 cursor-pointer transition-all duration-300"></label>
+                        </div>
+                    </div>
+
+                    <div class="bg-orange-50/50 rounded-2xl p-6 border border-orange-100/50">
+                        <div class="flex items-start gap-4">
+                            <svg class="w-5 h-5 text-orange-400 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                            <div class="text-sm text-earthy/70 leading-relaxed">
+                                <strong>Important:</strong> Disabling this feature (Default) will set all new products to <code>Approved</code> status immediately. This significantly reduces GCP costs but requires manual monitoring from the <strong>Product Watch</strong> page.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- More settings can go here -->
+                <div class="bg-white/50 border border-dashed border-orange-200 rounded-[32px] p-12 flex flex-col items-center justify-center text-center opacity-60">
+                    <div class="w-12 h-12 bg-orange-50 rounded-full flex items-center justify-center text-orange-300 mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6v6m0 0v6m0-6h6m-6 0H6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                    </div>
+                    <p class="text-sm font-medium text-earthy">More settings coming soon</p>
+                </div>
+            </div>
+
+            <!-- Save Action (Floating or Bottom) -->
+            <div class="mt-12 flex justify-end">
+                <button onclick="saveSettings()" id="save-btn" class="bg-earthy text-white px-10 py-4 rounded-2xl font-bold shadow-lg shadow-orange-100 hover:scale-105 transition-all">
+                    Save Changes
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        async function saveSettings() {
+            const btn = document.getElementById('save-btn');
+            const aiEnabled = document.getElementById('ai-toggle').checked;
+            
+            btn.disabled = true;
+            btn.innerText = "Saving...";
+            
+            try {
+                const response = await fetch('/admin/settings/update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ai_moderation_enabled: aiEnabled.toString() })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    alert('Settings updated successfully.');
+                } else {
+                    alert('Failed to update settings.');
+                }
+            } catch (error) {
+                alert('Connection error.');
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Save Changes";
+            }
+        }
+    </script>
+</body>
+</html>

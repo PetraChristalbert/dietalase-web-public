@@ -1,0 +1,29 @@
+services:
+  app:
+    build: .
+    container_name: dietalase-app
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=db
+      - DB_USER=${DB_USER:-dietalase_user}
+      - DB_PASSWORD=${DB_PASSWORD:-dietalase_password}
+      - DB_NAME=${DB_NAME:-dietalase_db}
+    volumes:
+      - dietalase_auth:/app/.wwebjs_auth
+      - ./storage:/app/storage
+      - ./backups:/app/backups
+    networks:
+      - shared-proxy-net
+    # Memory limits are crucial for applications bundling Chromium
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+
+volumes:
+  dietalase_auth:
+
+networks:
+  shared-proxy-net:
+    external: true

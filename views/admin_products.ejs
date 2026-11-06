@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background-color: #fff8f5; color: #4a3728; }
+        .bg-earthy { background-color: #6f4627; }
+        .text-earthy { color: #6f4627; }
+        .border-earthy { border-color: #6f4627; }
+        .status-badge { transition: all 0.3s ease; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="flex bg-[#fff8f5]">
+    <%- include('partials/admin_sidebar') %>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow ml-80 p-12 min-h-screen flex flex-col">
+        <div class="max-w-[1600px] mx-auto w-full flex-grow flex flex-col">
+            
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h1 class="text-4xl font-bold text-earthy tracking-tight">Product Watch</h1>
+                    <p class="text-gray-500 mt-2">Monitor recent additions for price anomalies and safety.</p>
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="runTriage()" id="triage-btn" class="bg-earthy text-white px-8 py-3 rounded-2xl font-bold flex items-center gap-3 shadow-lg shadow-orange-100 hover:scale-105 transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                        Run AI Triage
+                    </button>
+                    <div class="bg-white px-6 py-3 rounded-2xl shadow-sm border border-orange-50 flex items-center gap-3">
+                        <div class="w-3 h-3 bg-red-400 rounded-full"></div>
+                        <span class="text-sm font-bold text-earthy">Suspicious Activity</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="mb-8 flex gap-4">
+                <input type="text" id="searchInput" placeholder="Search product or store..." class="px-6 py-4 rounded-2xl shadow-sm border border-orange-50 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-orange-400" oninput="debounceSearch()">
+                <input type="date" id="dateInput" class="px-6 py-4 rounded-2xl shadow-sm border border-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-400" onchange="resetAndLoad()">
+            </div>
+
+            <!-- Product Gallery (Horizontal Layout) -->
+            <div id="productGallery" class="flex flex-col gap-6 pb-20">
+                <!-- Products dynamically loaded here -->
+            </div>
+            
+            <!-- Loading Indicator -->
+            <div id="loadingIndicator" class="text-center py-8 hidden">
+                <svg class="animate-spin h-8 w-8 text-earthy mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentPage = 1;
+        let isLoading = false;
+        let hasMore = true;
+        let searchTimeout = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+            window.addEventListener('scroll', handleScroll);
+        });
+
+        function debounceSearch() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(resetAndLoad, 1000);
+        }
+
+        function resetAndLoad() {
+            document.getElementById('productGallery').innerHTML = '';
+            currentPage = 1;
+            hasMore = true;
+            loadProducts();
+        }
+
+        async function loadProducts() {
+            if (isLoading || !hasMore) return;
+            isLoading = true;
+            document.getElementById('loadingIndicator').classList.remove('hidden');
+
+            const search = document.getElementById('searchInput').value;
+            const date = document.getElementById('dateInput').value;
+            
+            try {
+                const response = await fetch(`/admin/api/products?page=${currentPage}&limit=10&search=${encodeURIComponent(search)}&date=${encodeURIComponent(date)}`);
+                const data = await response.json();
+                
+                if (data.products.length < 10) {
+                    hasMore = false;
+                }
+                
+                renderProducts(data.products);
+                currentPage++;
+            } catch (error) {
+                console.error("Error loading products:", error);
+            } finally {
+                isLoading = false;
+                document.getElementById('loadingIndicator').classList.add('hidden');
+            }
+        }
+
+        function handleScroll() {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
+                loadProducts();
+            }
+        }
+
+        function renderProducts(products) {
+            const gallery = document.getElementById('productGallery');
+            products.forEach(product => {
+                let mainImage = product.image;
+                let imageList = [];
+                try {
+                    imageList = (typeof product.images === 'string') ? JSON.parse(product.images) : product.images;
+                    if (imageList && imageList.length > 0) mainImage = imageList[0];
+                } catch(e) {}
+
+                const bgClass = product.status === 'approved' ? 'bg-white' : 'bg-[#FFEDD5]';
+
+                const html = `
+                    <div id="product-${product.pid}" class="${bgClass} rounded-[32px] overflow-hidden shadow-sm border border-orange-50 group hover:shadow-xl transition-all flex flex-col h-[320px]">
+                        
+                        <!-- Top Section (Product Details) -->
+                        <div class="flex flex-row p-5 pb-4 flex-grow">
+                            <!-- Left: Product Image -->
+                            <div class="w-48 h-48 relative overflow-hidden bg-gray-100 flex-shrink-0 rounded-2xl">
+                                <img src="${mainImage}" onclick="openImagePreview('${mainImage}')" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 cursor-pointer" alt="Product">
+                            </div>
+
+                            <!-- Right: Product Info -->
+                            <div class="flex-grow pl-6 flex flex-col justify-start overflow-hidden h-48">
+                                <h3 class="text-2xl font-bold text-earthy mb-2 leading-tight line-clamp-1 cursor-help" title="${product.name}">${product.name}</h3>
+                                <p class="text-lg font-bold text-orange-600 mb-3 flex-shrink-0">Rp ${Number(product.price).toLocaleString()} <span class="text-xs text-gray-500 font-medium">/ ${product.unit || 'unit'}</span></p>
+                                <div class="text-sm text-gray-700 mb-2 overflow-y-auto no-scrollbar pr-2 flex-grow">
+                                    ${product.description}
+                                </div>
+                                ${product.curator_note ? `
+                                    <div class="p-2 bg-orange-50/80 rounded-xl border border-orange-100/50 inline-block max-w-full truncate mt-auto flex-shrink-0">
+                                        <p class="text-[9px] font-bold text-orange-400 uppercase mb-1">Curator's Note</p>
+                                        <p class="text-xs text-earthy font-medium italic">"${product.curator_note}"</p>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        <hr class="border-earthy opacity-20 mx-6">
+
+                        <!-- Bottom Section (Store Details & Actions) -->
+                        <div class="p-4 bg-orange-50/10 flex flex-row items-center justify-between">
+                            <!-- Store Info -->
+                            <div class="flex items-center gap-4 px-2">
+                                <div class="w-12 h-12 rounded-full overflow-hidden bg-gray-200 shadow-sm border-2 border-white flex-shrink-0">
+                                    <img src="${product.store_image || 'https://dietalase.com/assets/images/default-store.png'}" loading="lazy" class="w-full h-full object-cover">
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-earthy line-clamp-1">${product.store_name}</h4>
+                                    <p class="text-xs text-gray-500 line-clamp-1">${product.store_address || 'No address provided'}</p>
+                                </div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="flex gap-3 flex-shrink-0">
+                                ${product.status === 'approved' ? `
+                                    <button onclick="openRejectModal('${product.pid}')" class="px-8 py-2 rounded-xl font-bold text-sm transition-all bg-gray-100 text-gray-500 hover:bg-red-50 hover:text-red-600">
+                                        Takedown
+                                    </button>
+                                ` : `
+                                    <button onclick="submitAction('${product.pid}', 'approve')" class="px-8 py-2 rounded-xl font-bold text-sm transition-all bg-earthy text-white hover:bg-green-600">
+                                        Approve
+                                    </button>
+                                    <button onclick="openRejectModal('${product.pid}')" class="px-8 py-2 rounded-xl font-bold text-sm transition-all bg-red-50 text-red-600 hover:bg-red-600 hover:text-white border border-red-100">
+                                        Reject
+                                    </button>
+                                `}
+                                ${product.video ? `
+                                    <a href="${product.video}" target="_blank" class="p-2 rounded-xl bg-orange-50 text-earthy hover:bg-orange-100 transition-all flex items-center justify-center">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                                    </a>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                gallery.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        async function runTriage() {
+            const btn = document.getElementById('triage-btn');
+            btn.disabled = true;
+            btn.innerText = "Processing Batches...";
+            
+            try {
+                const response = await fetch('/admin/products/run-triage', { method: 'POST' });
+                const result = await response.json();
+                alert(result.message);
+                location.reload();
+            } catch (error) {
+                alert('Triage failed.');
+                btn.disabled = false;
+                btn.innerText = "Run AI Triage";
+            }
+        }
+
+        function openRejectModal(pid) {
+            document.getElementById('rejectPid').value = pid;
+            document.getElementById('rejectReason').value = '';
+            document.getElementById('rejectModal').classList.remove('hidden');
+            document.getElementById('rejectModal').classList.add('flex');
+        }
+
+        function closeRejectModal() {
+            document.getElementById('rejectModal').classList.add('hidden');
+            document.getElementById('rejectModal').classList.remove('flex');
+        }
+
+        async function submitReject() {
+            const pid = document.getElementById('rejectPid').value;
+            const reason = document.getElementById('rejectReason').value;
+            await submitAction(pid, 'reject', reason);
+            closeRejectModal();
+        }
+
+        async function submitAction(pid, action, curator_note = '') {
+            try {
+                const response = await fetch(`/admin/products/toggle/${pid}`, { 
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, curator_note })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    resetAndLoad(); 
+                } else {
+                    alert('Action failed: ' + result.message);
+                }
+            } catch (error) {
+                alert('Connection error.');
+            }
+        }
+        function openImagePreview(url) {
+            document.getElementById('previewImage').src = url;
+            document.getElementById('imagePreviewModal').classList.remove('hidden');
+            document.getElementById('imagePreviewModal').classList.add('flex');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeImagePreview(event, force = false) {
+            if (force || event.target.id === 'imagePreviewModal') {
+                document.getElementById('imagePreviewModal').classList.add('hidden');
+                document.getElementById('imagePreviewModal').classList.remove('flex');
+                document.getElementById('previewImage').src = '';
+                document.body.style.overflow = '';
+            }
+        }
+    </script>
+
+    <!-- Image Preview Modal -->
+    <div id="imagePreviewModal" onclick="closeImagePreview(event)" class="fixed inset-0 bg-black/90 z-[60] hidden items-center justify-center p-4">
+        <button onclick="closeImagePreview(event, true)" class="absolute top-6 left-6 text-white/50 hover:text-white transition-colors bg-black/50 p-2 rounded-full backdrop-blur-md">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <img id="previewImage" src="" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl" onclick="event.stopPropagation()">
+    </div>
+
+    <!-- Rejection Modal -->
+    <div id="rejectModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl transform transition-all">
+            <h3 class="text-2xl font-bold text-earthy mb-2">Reject Product</h3>
+            <p class="text-sm text-gray-500 mb-6">Are you sure you want to take down this product? You can optionally provide a reason for the artisan.</p>
+            
+            <input type="hidden" id="rejectPid" value="">
+            <textarea id="rejectReason" rows="3" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 text-earthy text-sm mb-6" placeholder="Reason for rejection (optional)..."></textarea>
+            
+            <div class="flex justify-end gap-3">
+                <button onclick="closeRejectModal()" class="px-6 py-2 rounded-xl text-gray-500 hover:bg-gray-100 font-bold transition-all text-sm">Cancel</button>
+                <button onclick="submitReject()" class="px-6 py-2 rounded-xl bg-red-600 text-white hover:bg-red-700 font-bold transition-all text-sm shadow-md">Confirm Reject</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,3441 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= __('index_text_1') %></title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:wght@400;600&family=Fira+Code:wght@400;600&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap");
+
+      :root {
+        /* Theme colors from Flutter v2_theme.dart */
+        --primary: #6f4627;
+        --on-primary: #ffffff;
+        --primary-container: #8b5e3c;
+        --on-primary-container: #ffe3d1;
+
+        --background: #fff8f5;
+        --on-background: #1e1b18;
+        --surface: #fff8f5;
+        --on-surface: #1e1b18;
+
+        --surface-container-lowest: #ffffff;
+        --surface-container-low: #fbf2ed;
+        --surface-container: #f5ece7;
+
+        --outline: #83746b;
+        --outline-variant: #d5c3b8;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Outfit", sans-serif;
+        background-color: var(--background);
+        margin: 0;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      .hero-section {
+        height: 120vh;
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding-left: 6vw;
+        position: relative;
+        background-image:
+          linear-gradient(
+            to right,
+            rgba(0, 0, 0, 0.85) 0%,
+            rgba(0, 0, 0, 0.6) 35%,
+            rgba(0, 0, 0, 0.1) 100%
+          ),
+          url("/images/hero_bg_v2.webp");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .hero-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .hero-title {
+        color: #ffffff;
+        font-size: 4.6rem;
+        font-weight: 300;
+        line-height: 1.15;
+        letter-spacing: -1px;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        animation: fadeInTitle 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.3s;
+      }
+
+      @keyframes fadeInTitle {
+        0% {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .search-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        height: 83px;
+        width: 83px; /* Starts circular just to wrap the button perfectly */
+        background-color: var(--surface-container-lowest);
+        border-radius: 41px;
+        padding: 7px;
+        border: 1px solid rgba(131, 116, 107, 0.15);
+        box-shadow:
+          0 10px 40px rgba(111, 70, 39, 0.05),
+          0 2px 10px rgba(111, 70, 39, 0.02);
+
+        /* Step 1: animate into center with a very smooth, long ease-out */
+        transform: translateY(80px);
+        opacity: 0;
+        animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      /* Expand class added by JS */
+      .search-container.expand {
+        width: 100%;
+        max-width: 36vw;
+        /* Quick start, smooth finish */
+        transition:
+          width 1.4s cubic-bezier(0.22, 1, 0.36, 1),
+          box-shadow 0.6s ease;
+      }
+
+      .search-container.expand:focus-within {
+        box-shadow:
+          0 15px 50px rgba(111, 70, 39, 0.1),
+          0 4px 15px rgba(111, 70, 39, 0.05);
+        border-color: rgba(111, 70, 39, 0.3);
+      }
+
+      .search-input-wrapper {
+        position: absolute;
+        left: 36px;
+        right: 88px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        opacity: 0;
+        transform-origin: bottom center;
+      }
+
+      /* Beautiful soft fade-in for the text area */
+      .search-container.show-text .search-input-wrapper {
+        opacity: 1;
+        transition: opacity 0.8s cubic-bezier(0.33, 1, 0.68, 1);
+      }
+
+      .search-input {
+        width: 100%;
+        border: none;
+        background: transparent;
+        outline: none;
+        font-size: 1.3rem;
+        color: var(--on-surface);
+        font-family: inherit;
+        font-weight: 300;
+      }
+
+      .search-input::placeholder {
+        color: var(--on-surface);
+        font-weight: 300;
+        letter-spacing: 0.8px;
+        opacity: 0.85;
+        transition: opacity 0.4s ease;
+      }
+
+      .search-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 67px;
+        height: 67px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #8b5e3c 0%, #6f4627 100%);
+        color: var(--on-primary);
+        flex-shrink: 0;
+        z-index: 10;
+        box-shadow: 0 4px 15px rgba(111, 70, 39, 0.3);
+        cursor: pointer;
+        transition:
+          transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+          box-shadow 0.4s ease;
+      }
+
+      .search-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(111, 70, 39, 0.4);
+      }
+
+      @keyframes slideUp {
+        0% {
+          transform: translateY(60px);
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .top-logo {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 16px 6vw;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: var(--primary);
+        z-index: 100;
+      }
+
+      .top-logo img {
+        width: 44px;
+        height: 44px;
+        object-fit: contain;
+      }
+
+      .top-logo-text {
+        font-size: 1.6rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+
+      .top-separator {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 2.4rem;
+        font-weight: 300;
+        user-select: none;
+        margin: 0 45px;
+      }
+
+      .top-link {
+        color: #ffffff;
+        font-size: 1.1rem;
+        font-weight: 400;
+        text-decoration: none;
+        cursor: pointer;
+        transition: opacity 0.3s ease;
+        margin: 0 16px;
+      }
+
+      .top-link:hover {
+        opacity: 0.7;
+      }
+
+      /* About Section */
+      .about-section {
+        min-height: 100vh;
+        width: 100vw;
+        background-color: var(--background);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 15vh 4vw;
+        position: relative;
+        z-index: 2;
+      }
+
+      .about-header {
+        text-align: center;
+        max-width: 800px;
+        margin-bottom: 20vh;
+      }
+
+      .about-title {
+        font-size: 4rem;
+        font-weight: 300;
+        color: var(--on-background);
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.5px;
+      }
+
+      .about-description {
+        font-size: 1.25rem;
+        font-weight: 300;
+        color: var(--outline);
+        line-height: 1.6;
+      }
+
+      .about-cards-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1700px;
+        gap: 3vw;
+      }
+
+      .about-card {
+        flex: 1;
+        position: relative;
+        border: 1px solid rgba(131, 116, 107, 0.15);
+        border-radius: 24px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 30px rgba(111, 70, 39, 0.05);
+        transition:
+          flex 0.7s cubic-bezier(0.25, 1, 0.5, 1),
+          transform 0.4s ease,
+          box-shadow 0.4s ease;
+        height: 90vh;
+        overflow: hidden;
+      }
+
+      .card-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        transition: transform 0.6s ease;
+        z-index: 1;
+      }
+
+      .about-card:hover .card-image {
+        transform: scale(1.05);
+      }
+
+      .card-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.8) 0%,
+          rgba(0, 0, 0, 0) 40%
+        );
+        transition: background 0.6s ease;
+        z-index: 2;
+      }
+
+      .about-card:hover .card-overlay {
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.95) 0%,
+          rgba(0, 0, 0, 0.8) 50%,
+          rgba(0, 0, 0, 0) 80%
+        );
+      }
+
+      .card-content {
+        position: relative;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 40px 32px;
+        color: #ffffff;
+        justify-content: flex-end;
+      }
+
+      .card-1 {
+        transform: translateY(0);
+      }
+      .card-2 {
+        transform: translateY(100px);
+      }
+      .card-3 {
+        transform: translateY(200px);
+      }
+
+      .card-1:hover {
+        transform: translateY(-10px);
+      }
+      .card-2:hover {
+        transform: translateY(90px);
+      }
+      .card-3:hover {
+        transform: translateY(190px);
+      }
+
+      .card-title {
+        font-size: 2.2rem;
+        font-weight: 300;
+        color: #ffffff;
+        margin-bottom: 24px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .card-divider {
+        border: none;
+        height: 1px;
+        background-color: rgba(255, 255, 255, 0.3);
+        margin-bottom: 24px;
+        width: 100%;
+      }
+
+      .card-description {
+        font-size: 1.15rem;
+        line-height: 1.6;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 32px;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.6s ease,
+          opacity 0.4s ease 0.1s;
+      }
+
+      .about-card:hover .card-description {
+        max-height: 500px;
+        opacity: 1;
+      }
+
+      .card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #ffffff;
+        font-weight: 500;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: opacity 0.3s ease;
+      }
+
+      .card-footer:hover {
+        opacity: 0.7;
+      }
+
+      .arrow-icon {
+        width: 24px;
+        height: 24px;
+        stroke: currentColor;
+        stroke-width: 2;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        transition: transform 0.3s ease;
+      }
+
+      .card-footer:hover .arrow-icon {
+        transform: translateX(5px);
+      }
+      .about-intro-img {
+        opacity: 0;
+        transform: translateY(120px);
+        transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.8s ease;
+      }
+      .about-intro-img.animate-in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .about-intro-card {
+        opacity: 0;
+        transform: translateY(100px);
+        transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease;
+      }
+      .about-intro-card.animate-in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Status Quo Section */
+      .status-quo-section {
+        min-height: 125vh;
+        width: 100vw;
+        background-color: #fbf2e7;
+        padding: 10vh 4vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .status-header {
+        text-align: center;
+        max-width: 900px;
+        margin-bottom: 3rem;
+      }
+
+      .status-title {
+        font-family: "Playfair Display", serif;
+        font-size: 3.5rem;
+        color: var(--on-background);
+        margin-bottom: 1.5rem;
+      }
+
+      .status-subtitle {
+        font-size: 1.25rem;
+        font-weight: 300;
+        color: var(--outline);
+        line-height: 1.6;
+      }
+
+      .status-split {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        max-width: 1400px;
+        gap: 4vw;
+        flex: 1;
+      }
+      
+      @media (max-width: 1300px) {
+        .status-split {
+          flex-direction: column !important;
+          align-items: center;
+        }
+        .status-column {
+          width: 100%;
+          margin-bottom: 4rem;
+        }
+        .thought-container {
+          position: relative !important;
+          height: 160px !important; 
+          width: 100% !important;
+          margin-bottom: 20px !important;
+        }
+        .status-character {
+          height: auto !important;
+          max-height: 35vh !important;
+        }
+        .thought-text {
+          font-size: 1.1rem !important;
+          padding: 16px 24px !important;
+          width: 90% !important;
+          max-width: none !important;
+          margin: 0 auto !important;
+          left: 5% !important;
+          transform: translateY(-50%) !important;
+        }
+        .consumer-character {
+          transform: scaleX(-1) !important;
+        }
+      }
+
+
+      .status-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .status-character {
+        height: 60vh;
+        width: auto;
+        z-index: 10;
+        position: relative;
+      }
+
+      .consumer-character {
+        transform: scaleX(-1);
+      }
+
+      .thought-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+
+      .thought-text {
+        font-family: "Outfit", sans-serif;
+        font-size: 1.1rem;
+        color: #51443c;
+        text-align: center;
+        font-weight: 500;
+        line-height: 1.5;
+        max-width: 320px;
+        position: absolute;
+        opacity: 0;
+        transition:
+          opacity 0.6s ease-in-out,
+          transform 0.6s ease-in-out;
+        transform: translateY(10px) scale(0.95);
+        background: #fffdfa;
+        border: 2px solid #e6d8cd;
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: 0 10px 20px rgba(81, 68, 60, 0.08);
+        z-index: 20;
+      }
+
+      /* Mid Left (Points Right) */
+      .bubble-left.bubble-mid::after {
+        content: "";
+        position: absolute;
+        right: -14px;
+        top: 50%;
+        transform: translateY(-50%);
+        border-width: 12px 0 12px 14px;
+        border-style: solid;
+        border-color: transparent transparent transparent #e6d8cd;
+      }
+      .bubble-left.bubble-mid::before {
+        content: "";
+        position: absolute;
+        right: -11px;
+        top: 50%;
+        transform: translateY(-50%);
+        border-width: 10px 0 10px 12px;
+        border-style: solid;
+        border-color: transparent transparent transparent #fffdfa;
+        z-index: 1;
+      }
+
+      /* Mid Right (Points Left) */
+      .bubble-right.bubble-mid::after {
+        content: "";
+        position: absolute;
+        left: -14px;
+        top: 50%;
+        transform: translateY(-50%);
+        border-width: 12px 14px 12px 0;
+        border-style: solid;
+        border-color: transparent #e6d8cd transparent transparent;
+      }
+      .bubble-right.bubble-mid::before {
+        content: "";
+        position: absolute;
+        left: -11px;
+        top: 50%;
+        transform: translateY(-50%);
+        border-width: 10px 12px 10px 0;
+        border-style: solid;
+        border-color: transparent #fffdfa transparent transparent;
+        z-index: 1;
+      }
+
+      /* Top Left (Spike on bottom edge, points DOWN) */
+      .bubble-left.bubble-top::after {
+        content: "";
+        position: absolute;
+        bottom: -9px;
+        right: 25px;
+        width: 16px;
+        height: 16px;
+        background: #fffdfa;
+        border-bottom: 2px solid #e6d8cd;
+        border-right: 2px solid #e6d8cd;
+        transform: rotate(45deg);
+        z-index: 10;
+      }
+      .bubble-left.bubble-top::before {
+        display: none;
+      }
+
+      /* Bottom Left (Spike on top edge, points UP) */
+      .bubble-left.bubble-bottom::after {
+        content: "";
+        position: absolute;
+        top: -9px;
+        right: 25px;
+        width: 16px;
+        height: 16px;
+        background: #fffdfa;
+        border-top: 2px solid #e6d8cd;
+        border-left: 2px solid #e6d8cd;
+        transform: rotate(45deg);
+        z-index: 10;
+      }
+      .bubble-left.bubble-bottom::before {
+        display: none;
+      }
+
+      /* Top Right (Spike on bottom edge, points DOWN) */
+      .bubble-right.bubble-top::after {
+        content: "";
+        position: absolute;
+        bottom: -9px;
+        left: 25px;
+        width: 16px;
+        height: 16px;
+        background: #fffdfa;
+        border-bottom: 2px solid #e6d8cd;
+        border-right: 2px solid #e6d8cd;
+        transform: rotate(45deg);
+        z-index: 10;
+      }
+      .bubble-right.bubble-top::before {
+        display: none;
+      }
+
+      /* Bottom Right (Spike on top edge, points UP) */
+      .bubble-right.bubble-bottom::after {
+        content: "";
+        position: absolute;
+        top: -9px;
+        left: 25px;
+        width: 16px;
+        height: 16px;
+        background: #fffdfa;
+        border-top: 2px solid #e6d8cd;
+        border-left: 2px solid #e6d8cd;
+        transform: rotate(45deg);
+        z-index: 10;
+      }
+      .bubble-right.bubble-bottom::before {
+        display: none;
+      }
+
+      .thought-text.active {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      /* Diorama Section */
+      .diorama-section {
+        min-height: 100vh;
+        width: 100vw;
+        background-color: var(--surface-container-lowest);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+        padding-top: 15vh;
+        padding-bottom: 25vh;
+        z-index: 1;
+      }
+
+      .diorama-header {
+        text-align: center;
+        max-width: 800px;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .diorama-title {
+        font-size: 3.5rem;
+        font-weight: 300;
+        color: var(--on-background);
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.5px;
+      }
+
+      .diorama-subtitle {
+        font-size: 1.25rem;
+        font-weight: 300;
+        color: var(--outline);
+        line-height: 1.6;
+        margin-bottom: 2.5rem;
+      }
+
+      .diorama-search-bar {
+        display: inline-flex;
+        align-items: center;
+        background: white;
+        border: 1px solid rgba(131, 116, 107, 0.2);
+        border-radius: 30px;
+        padding: 14px 32px;
+        min-width: 320px;
+        min-height: 54px;
+        box-shadow: 0 4px 15px rgba(111, 70, 39, 0.05);
+        font-size: 1.15rem;
+        color: var(--on-surface);
+        justify-content: flex-start;
+        margin-bottom: 24px;
+        z-index: 10;
+        position: relative;
+      }
+
+      .diorama-typing-text {
+        border-right: 2px solid var(--primary);
+        padding-right: 4px;
+        animation: blink 0.8s step-end infinite;
+      }
+
+      @keyframes blink {
+        50% {
+          border-color: transparent;
+        }
+      }
+
+      .diorama-stage {
+        position: relative;
+        height: 70vh;
+        width: 100%;
+        max-width: 1200px;
+        margin-top: 5vh;
+      }
+
+      .diorama-avatar-wrapper {
+        position: absolute;
+        bottom: 25%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .diorama-avatar {
+        width: 150px;
+        height: auto;
+        position: relative;
+        z-index: 2;
+      }
+
+      .ripple-ring {
+        position: absolute;
+        bottom: -10px;
+        width: 20px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid var(--primary);
+        opacity: 0;
+        transform: scale(1);
+      }
+
+      .ripple-ring.animate {
+        animation: ripple 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      @keyframes ripple {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+          border-width: 3px;
+        }
+        100% {
+          transform: scale(30);
+          opacity: 0;
+          border-width: 1px;
+        }
+      }
+
+      .diorama-item {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        cursor: pointer;
+      }
+
+      .diorama-item.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .diorama-card {
+        background: var(--surface-container-lowest);
+        border: 1px solid var(--outline);
+        border-radius: 16px;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        width: 280px;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .diorama-item:hover .diorama-card {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      }
+
+      .diorama-card-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        background-size: cover;
+        background-position: center;
+        flex-shrink: 0;
+      }
+
+      .diorama-card-info {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .diorama-card-info h4 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--on-surface);
+        margin: 0 0 4px 0;
+      }
+
+      .diorama-price {
+        font-size: 0.95rem;
+        color: #8b5e3c;
+        font-weight: 500;
+        margin-bottom: 2px;
+      }
+
+      .diorama-distance {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #51443c;
+      }
+
+      .diorama-pin {
+        width: 1px;
+        height: 100px;
+        background-color: #6f4627;
+        opacity: 0.6;
+        transition: height 0.3s ease;
+      }
+
+      .diorama-item:hover .diorama-pin {
+        height: 108px; /* Grows slightly when card lifts */
+      }
+
+      .diorama-shadow {
+        width: 20px;
+        height: 6px;
+        background: rgba(0, 0, 0, 0.15);
+        border-radius: 50%;
+        filter: blur(2px);
+      }
+
+      /* Perspective Scaling & Positions */
+      .near {
+        transform-origin: bottom center;
+        z-index: 10;
+      }
+      .near.show {
+        transform: scale(1.2) translateY(0);
+      }
+
+      .mid {
+        transform-origin: bottom center;
+        z-index: 4;
+      }
+      .mid.show {
+        transform: scale(0.9) translateY(0);
+      }
+
+      .far {
+        transform-origin: bottom center;
+        opacity: 0;
+        filter: blur(2px);
+        z-index: 3;
+      }
+      .far.show {
+        transform: scale(0.7) translateY(0);
+        opacity: 0.6;
+      }
+      .far:hover {
+        opacity: 1;
+        filter: blur(0px);
+        z-index: 10;
+        transform: scale(0.7) translateY(-8px);
+      }
+
+      /* Absolute Placements relative to .diorama-stage */
+      .pos-1 {
+        bottom: 20%;
+        left: 8%;
+      }
+      .pos-2 {
+        bottom: 40%;
+        right: 10%;
+      }
+      .pos-3 {
+        bottom: 65%;
+        left: 30%;
+      }
+
+      /* Ledger Section */
+      .ledger-section {
+        min-height: 100vh;
+        width: 100vw;
+        background-color: #fcf1e7;
+        padding: 15vh 4vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .ledger-header {
+        text-align: center;
+        max-width: 800px;
+        margin-bottom: 5rem;
+      }
+
+      .ledger-title {
+        font-family: "Playfair Display", serif;
+        font-size: 3.5rem;
+        color: var(--on-background);
+        margin-bottom: 1.5rem;
+      }
+
+      .ledger-subtitle {
+        font-size: 1.25rem;
+        font-weight: 300;
+        color: var(--outline);
+        line-height: 1.6;
+      }
+
+      .atelier-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 8vh;
+        width: 100%;
+        max-width: 1400px;
+      }
+
+      .atelier-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        position: relative;
+      }
+
+      .atelier-item.level-1 {
+        margin-left: 0;
+      }
+
+      .atelier-item.level-2 {
+        margin-left: 10vw;
+      }
+
+      .atelier-item.level-3 {
+        margin-left: 20vw;
+      }
+
+      .atelier-item.level-1::after,
+      .atelier-item.level-2::after {
+        content: "";
+        position: absolute;
+        left: 180px; 
+        top: calc(50% + 160px); 
+        width: 10vw; 
+        height: calc(8vh + 60px); 
+        border-bottom: 3px dashed var(--primary);
+        border-left: 3px dashed var(--primary);
+        border-bottom-left-radius: 40px;
+        z-index: 0;
+        opacity: 0.5;
+      }
+
+      .atelier-img {
+        width: 360px;
+        height: 360px;
+        object-fit: cover;
+        margin-right: 4vw;
+        flex-shrink: 0;
+        border: 4px solid var(--primary);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(111, 70, 39, 0.15);
+        position: relative;
+        z-index: 2;
+      }
+
+      .atelier-content {
+        display: flex;
+        flex-direction: column;
+        max-width: 500px;
+      }
+
+      .atelier-number {
+        font-family: "Playfair Display", serif;
+        font-size: 4rem;
+        color: var(--primary);
+        line-height: 1;
+        margin-bottom: 0.5rem;
+      }
+
+      .atelier-item-title {
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: var(--on-background);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 1.2rem;
+      }
+
+      .atelier-item-desc {
+        font-size: 1.15rem;
+        line-height: 1.6;
+        color: var(--on-surface);
+        font-weight: 300;
+        margin-bottom: 0;
+      }
+
+      /* Catalyst Gateway Section */
+      .catalyst-gateway-section {
+        min-height: 100vh;
+        width: 100vw;
+        background-color: #ffffff;
+        padding: 10vh 4vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 2;
+      }
+      .catalyst-split {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 1200px;
+        width: 100%;
+        gap: 4rem;
+      }
+      @media (min-width: 768px) {
+        .catalyst-split {
+          flex-direction: row;
+          justify-content: space-between;
+        }
+      }
+      .catalyst-left {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+      .catalyst-right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: left;
+      }
+      .catalyst-phone-container {
+        position: relative;
+        width: 100%;
+        max-width: 700px;
+      }
+      .catalyst-phone-img {
+        width: 100%;
+        height: auto;
+      }
+      .catalyst-button {
+        position: absolute;
+        top: 42%;
+        left: 44%;
+        transform: translate(-30%, -30%);
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        width: 110px;
+        height: 110px;
+        transition:
+          transform 0.3s ease,
+          filter 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.4));
+      }
+      .catalyst-button img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: opacity 0.3s ease;
+      }
+      .gateway-title {
+        font-family: "Playfair Display", serif;
+        font-size: 3.5rem;
+        color: #51443c;
+        margin-bottom: 1.5rem;
+        line-height: 1.1;
+      }
+      .gateway-description {
+        font-family: "Outfit", sans-serif;
+        font-size: 1.25rem;
+        color: #83746b;
+        line-height: 1.6;
+        margin-bottom: 2.5rem;
+      }
+      .playstore-button {
+        display: inline-flex;
+        border: 2px solid #51443c;
+        border-radius: 12px;
+        padding: 0.8rem 1.8rem;
+        background: #51443c;
+        text-decoration: none;
+        transition:
+          background 0.3s ease,
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+        align-items: center;
+        justify-content: center;
+        max-width: 380px;
+        gap: 16px;
+        box-shadow: 0 4px 12px rgba(81, 68, 60, 0.2);
+      }
+      .playstore-button:hover {
+        background: #3f352e;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(81, 68, 60, 0.3);
+      }
+      .playstore-button svg {
+        width: 28px;
+        height: 28px;
+        fill: #ffffff;
+      }
+      .playstore-button span {
+        font-family: "Outfit", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #ffffff;
+      }
+
+      /* Animation classes for previous section */
+      .thought-text.dissolve {
+        opacity: 0 !important;
+        transform: scale(0.8) translateY(20px) !important;
+        filter: blur(10px) !important;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease,
+          filter 0.4s ease !important;
+      }
+
+      @keyframes pop-in {
+        0% {
+          transform: translateY(100px) scale(0);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+      }
+      .animate-pop-in {
+        animation: pop-in 0.4s ease-out forwards;
+        opacity: 0;
+        transform-origin: bottom center;
+      }
+      @keyframes pin-grow {
+        0% {
+          transform: scaleY(0);
+          opacity: 0;
+        }
+        100% {
+          transform: scaleY(1);
+          opacity: 0.6;
+        }
+      }
+      .animate-pin-grow {
+        animation: pin-grow 0.4s ease-out forwards;
+        opacity: 0;
+        transform-origin: bottom center;
+      }
+
+      @keyframes pop-out {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(100px) scale(0);
+          opacity: 0;
+        }
+      }
+      .animate-pop-out {
+        animation: pop-out 0.4s ease-in forwards;
+        transform-origin: bottom center;
+      }
+      @keyframes pin-shrink {
+        0% {
+          transform: scaleY(1);
+          opacity: 0.6;
+        }
+        100% {
+          transform: scaleY(0);
+          opacity: 0;
+        }
+      }
+      .animate-pin-shrink {
+        animation: pin-shrink 0.4s ease-in forwards;
+        transform-origin: bottom center;
+      }
+
+      /* Responsive Fixes for Mobile & Tablet */
+      @media (max-width: 1024px) {
+        body, html {
+          overflow-x: hidden;
+        }
+        /* 1. Header & Title */
+        .top-logo {
+          background-color: var(--primary) !important;
+          justify-content: center !important;
+          padding: 1rem !important;
+          width: 100% !important;
+          position: relative !important;
+          margin-top: 0 !important;
+          top: 0 !important;
+          left: 0 !important;
+          border-radius: 0 !important;
+        }
+        .top-logo img {
+          /* No filter on icon per user request */
+        }
+        .top-logo-text {
+          color: #ffe3d1 !important; /* light brown */
+        }
+        .gateway-title {
+          white-space: normal !important;
+          font-size: 2.5rem !important;
+          padding: 0 1rem;
+          line-height: 1.2 !important;
+          margin-bottom: 2rem !important;
+        }
+        .desktop-only {
+          display: none !important;
+        }
+        .mobile-only {
+          display: flex !important;
+        }
+        .catalyst-gateway-section {
+          padding-top: 10vh !important;
+        }
+        .catalyst-gateway-section .text-center {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: 3rem !important;
+        }
+
+        /* 2. Section 2: Cards & Character Spacing */
+        .about-cards-container {
+          flex-direction: column !important;
+          align-items: center;
+        }
+        .about-card {
+          width: 100% !important;
+          height: auto !important;
+          min-height: 60vh;
+          margin-bottom: 2rem;
+        }
+        .about-intro-img {
+          height: auto !important;
+          max-height: 300px !important;
+          object-fit: contain;
+          margin-bottom: -2rem !important;
+          z-index: 10 !important;
+        }
+
+        /* 3. Section 3: Map Markers */
+        .map-pin > div.absolute:first-child {
+          width: 16px !important;
+          height: 20px !important;
+        }
+
+        /* 4. Section 4: Ledger Layout */
+        .atelier-grid {
+          flex-direction: column !important;
+          align-items: center;
+          gap: 4vh !important;
+        }
+        .atelier-item {
+          width: 100% !important;
+          max-width: 500px;
+          flex-direction: column !important;
+          margin-left: 0 !important;
+          text-align: center;
+        }
+        .atelier-item::after {
+          display: none !important;
+        }
+        .atelier-img {
+          margin-right: 0 !important;
+          margin-bottom: 1.5rem !important;
+          width: 100% !important;
+          height: auto !important;
+          aspect-ratio: 1 / 1;
+        }
+
+        /* 5. Section 5: Status Quo */
+        .status-split {
+          flex-direction: column !important;
+          align-items: center;
+        }
+        .status-column {
+          width: 100%;
+          margin-bottom: 4rem;
+          /* Remove min-height/padding so it hugs the content closely */
+        }
+        .thought-container {
+          position: relative !important;
+          height: 160px !important; /* Max height for bubble to grow upwards */
+          width: 100% !important;
+          margin-bottom: 20px !important; /* Exact spacing before character image */
+        }
+        .status-character {
+          height: auto !important;
+          max-height: 35vh !important;
+        }
+        .thought-text {
+          font-size: 1.1rem !important;
+          padding: 16px 24px !important;
+          width: 90% !important;
+          max-width: none !important;
+          bottom: 0 !important; /* Pin to bottom so bubble grows upwards */
+          top: auto !important;
+          left: 50% !important;
+          right: auto !important;
+          transform: translate(-50%, 10px) scale(0.95) !important;
+        }
+        .thought-text.active {
+          transform: translate(-50%, 0) scale(1) !important;
+        }
+        .thought-text::after {
+          content: "" !important;
+          position: absolute !important;
+          bottom: -9px !important;
+          left: 50% !important;
+          top: auto !important;
+          right: auto !important;
+          margin-left: -8px !important;
+          width: 16px !important;
+          height: 16px !important;
+          background: #fffdfa !important;
+          border-bottom: 2px solid #e6d8cd !important;
+          border-right: 2px solid #e6d8cd !important;
+          border-left: none !important;
+          border-top: none !important;
+          transform: rotate(45deg) !important;
+          z-index: 10 !important;
+          display: block !important;
+        }
+        .thought-text::before {
+          display: none !important;
+        }
+      }
+      @media (min-width: 1025px) {
+        .mobile-only {
+          display: none !important;
+        }
+      }
+
+      /* Elevate map pins when active/hovered so info boxes aren't covered by other pins */
+      .map-pin:hover, .map-pin:focus, .map-pin:focus-within {
+        z-index: 50 !important;
+      }
+    </style>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        corePlugins: { preflight: false },
+        theme: {
+          extend: {
+            colors: {
+              "flutter-bg": "#fff8f5",
+              "flutter-primary": "#6f4627",
+              "flutter-surface": "#f5ece7",
+              "flutter-text": "#1e1b18",
+            },
+          },
+        },
+      };
+    </script>
+    <script
+      src="https://unpkg.com/react@18/umd/react.production.min.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>
+  <body>
+    <header class="top-logo relative" style="z-index: 100;">
+      <a href="/" style="display: flex; align-items: center; gap: 12px; z-index: 100; text-decoration: none;">
+        <img src="/images/dietalase_icon.webp" alt="DiEtalase Logo" />
+        <span class="top-logo-text" style="color: #ffe3d1"><%= __('index_text_1') %></span>
+      </a>
+      
+      <div class="desktop-only" style="display: flex; align-items: center; gap: 24px;">
+        <!-- Desktop Hamburger Menu -->
+        <button id="desktopMenuBtn" class="flex items-center justify-center p-2 rounded-full hover:bg-white/10 transition-colors focus:outline-none appearance-none border-none bg-transparent" style="color: #ffe3d1; cursor: pointer;">
+          <svg class="w-8 h-8 transition-transform duration-300" id="desktopMenuIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Wrapper -->
+      <div id="mobileMenuPanelWrapper" class="absolute flex flex-col items-end pointer-events-none" style="top: 99%; left: 0; right: 0; z-index: 40;">
+        
+        <!-- Expanding Panel -->
+        <div id="mobileMenuGrid" class="w-full pointer-events-auto" style="max-height: 0px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); transition: max-height 0.4s ease-in-out, box-shadow 0.4s ease-out;">
+          <div class="overflow-hidden w-full bg-[var(--primary)] text-[#ffe3d1] border-t border-white/5">
+            <div id="mobileMenuLinks" class="py-8 px-12 gap-5 flex flex-col w-full opacity-0" style="transition: opacity 0.3s ease-out 0.1s;">
+              <a href="/online-store" style="text-decoration: none; color: #ffe3d1;" class="flex items-center font-medium text-sm tracking-widest uppercase hover:text-white opacity-80 hover:opacity-100 transition">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg><%= __('index_text_3') %></a>
+              <a href="/merchant-hub" style="text-decoration: none; color: #ffe3d1;" class="flex items-center font-medium text-sm tracking-widest uppercase hover:text-white opacity-80 hover:opacity-100 transition">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg><%= __('index_text_4') %></a>
+              <a href="#" style="text-decoration: none; color: #ffe3d1;" class="flex items-center font-medium text-sm tracking-widest uppercase hover:text-white opacity-80 hover:opacity-100 transition">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg><%= __('index_text_5') %></a>
+              <a href="#" style="text-decoration: none; color: #ffe3d1;" class="flex items-center font-medium text-sm tracking-widest uppercase hover:text-white opacity-80 hover:opacity-100 transition">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><%= __('index_text_6') %></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Menu Tab -->
+        <button id="mobileMenuBtn" class="lg:hidden flex items-center justify-center gap-1 font-bold text-xs uppercase tracking-wider transition-colors duration-300 bg-transparent border-none outline-none focus:outline-none appearance-none pointer-events-auto" 
+          style="
+            margin-right: 12px; 
+            margin-top: -1px; 
+            color: #ffe3d1; 
+            padding: 8px 18px 10px 18px; 
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+          ">
+          <!-- Trapezoid Background -->
+          <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--primary); border-radius: 0 0 12px 12px; transform: perspective(20px) rotateX(-5deg); transform-origin: top; z-index: -1;"></div>
+          <span class="relative z-10 flex items-center gap-1" style="transform: translateY(-1px);"><%= __('index_text_7') %><svg id="mobileMenuIcon" class="w-4 h-4 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+          </span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Catalyst & Gateway Section -->
+    <section
+      class="catalyst-gateway-section"
+      id="catalystSection"
+      style="
+        flex-direction: column;
+        padding-top: 18vh;
+        background: radial-gradient(circle at 50% 40%, #ffffff 0%, #fcf1e7 70%);
+        min-height: 120vh;
+        overflow: hidden;
+      "
+    >
+      <div class="text-center mb-12 z-20 relative">
+        <h2
+          class="gateway-title"
+          style="
+            margin-bottom: 1rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            white-space: nowrap;
+          "
+        ><%= __('index_text_8') %></h2>
+        <p class="gateway-description" style="max-width: 600px; margin: 0 auto; margin-bottom: 2rem;"><%= __('index_text_9') %></p>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;">
+          <a
+            href="#" onclick="openComingSoonModal(event)"
+            style="
+              width: 220px;
+              background-color: #6f4627;
+              color: #fff8f5;
+              padding: 12px 24px;
+              border-radius: 9999px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 10px;
+              text-decoration: none;
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-weight: 500;
+              font-size: 15px;
+              box-shadow: 0 4px 12px rgba(111, 70, 39, 0.2);
+              transition: transform 0.2s ease;
+            "
+          >
+            <svg
+              viewBox="0 0 512 512"
+              style="width: 20px; height: 20px; fill: currentColor"
+            >
+              <path
+                d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"
+              />
+            </svg><%= __('index_text_2') %></a>
+
+          <a
+            href="/online-store"
+            style="
+              width: 220px;
+              background-color: transparent;
+              border: 2px solid #6f4627;
+              color: #6f4627;
+              padding: 12px 24px;
+              border-radius: 9999px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 10px;
+              text-decoration: none;
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-weight: 500;
+              font-size: 15px;
+              transition: all 0.2s ease;
+            "
+            onmouseover="this.style.backgroundColor='#6f4627'; this.style.color='#fff8f5';"
+            onmouseout="this.style.backgroundColor='transparent'; this.style.color='#6f4627';"
+          >
+            <svg 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              stroke-width="2" 
+              stroke-linecap="round" 
+              stroke-linejoin="round" 
+              style="width: 20px; height: 20px;"
+            >
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <%= __('index_open_on_website') %>
+          </a>
+        </div>
+      </div>
+
+      <div
+        id="react-hero-section"
+        class="relative w-full max-w-6xl flex justify-center items-center h-[700px] mt-8"
+        style="perspective: 1000px"
+      ></div>
+    </section>
+
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      const SEARCHES = [
+        {
+          keyword: "Handmade Crafts",
+          products: [
+            {
+              id: 1,
+              title: "Ceramic Vase",
+              price: "Rp 150.000",
+              distance: 1.2,
+              scale: 1.1,
+              img: "/images/card_1.webp",
+              left: "2%",
+              top: "10%",
+            },
+            {
+              id: 2,
+              title: "Woven Basket",
+              price: "Rp 85.000",
+              distance: 14.5,
+              scale: 0.85,
+              img: "/images/card_2.webp",
+              right: "2%",
+              top: "5%",
+            },
+            {
+              id: 3,
+              title: "Leather Wallet",
+              price: "Rp 300.000",
+              distance: 12.0,
+              scale: 1,
+              img: "/images/card_3.webp",
+              left: "10%",
+              bottom: "5%",
+            },
+          ],
+        },
+        {
+          keyword: "Fresh Coffee",
+          products: [
+            {
+              id: 4,
+              title: "Artisan Coffee",
+              price: "Rp 45.000",
+              distance: 0.5,
+              scale: 1.15,
+              img: "/images/atelier_3.webp",
+              right: "12%",
+              bottom: "10%",
+            },
+            {
+              id: 5,
+              title: "Roasted Beans",
+              price: "Rp 120.000",
+              distance: 8.5,
+              scale: 0.9,
+              img: "/images/atelier_1.webp",
+              left: "5%",
+              top: "15%",
+            },
+            {
+              id: 6,
+              title: "Matcha Latte",
+              price: "Rp 35.000",
+              distance: 3.2,
+              scale: 1.05,
+              img: "/images/atelier_2.webp",
+              right: "5%",
+              top: "20%",
+            },
+          ],
+        },
+        {
+          keyword: "Vintage Clothing",
+          products: [
+            {
+              id: 7,
+              title: "Denim Jacket",
+              price: "Rp 450.000",
+              distance: 5.0,
+              scale: 1.1,
+              img: "/images/card_3.webp",
+              left: "15%",
+              top: "8%",
+            },
+            {
+              id: 8,
+              title: "Silk Scarf",
+              price: "Rp 120.000",
+              distance: 13.0,
+              scale: 0.8,
+              img: "/images/card_2.webp",
+              right: "8%",
+              bottom: "15%",
+            },
+            {
+              id: 9,
+              title: "Retro Boots",
+              price: "Rp 850.000",
+              distance: 2.5,
+              scale: 1,
+              img: "/images/card_1.webp",
+              left: "8%",
+              bottom: "12%",
+            },
+          ],
+        },
+        {
+          keyword: "Local Bakery",
+          products: [
+            {
+              id: 10,
+              title: "Sourdough Loaf",
+              price: "Rp 50.000",
+              distance: 1.0,
+              scale: 1.15,
+              img: "/images/atelier_1.webp",
+              right: "10%",
+              top: "10%",
+            },
+            {
+              id: 11,
+              title: "Croissant",
+              price: "Rp 25.000",
+              distance: 11.5,
+              scale: 0.85,
+              img: "/images/atelier_2.webp",
+              left: "4%",
+              bottom: "10%",
+            },
+            {
+              id: 12,
+              title: "Fruit Tart",
+              price: "Rp 85.000",
+              distance: 6.5,
+              scale: 1.05,
+              img: "/images/atelier_3.webp",
+              right: "5%",
+              bottom: "25%",
+            },
+          ],
+        },
+      ];
+
+      const HeroSection = () => {
+        const [searchIndex, setSearchIndex] = useState(0);
+        const [phase, setPhase] = useState("TYPING");
+        const [displayText, setDisplayText] = useState("");
+        const [isFilterOpen, setIsFilterOpen] = useState(false);
+        const [shownIndex, setShownIndex] = useState(-1);
+
+        useEffect(() => {
+          let isActive = true;
+
+          const runCycle = async () => {
+            const currentKeyword = SEARCHES[searchIndex].keyword;
+
+            setPhase("TYPING");
+            setDisplayText("");
+            const typeTime = 1500 / currentKeyword.length;
+            for (let i = 1; i <= currentKeyword.length; i++) {
+              if (!isActive) return;
+              setDisplayText(currentKeyword.substring(0, i));
+              await new Promise((r) => setTimeout(r, typeTime));
+            }
+
+            setPhase("SHOWING");
+            setShownIndex(searchIndex);
+            await new Promise((r) => setTimeout(r, 2850));
+
+            setPhase("DELETING");
+            const delTime = 650 / currentKeyword.length;
+            for (let i = currentKeyword.length; i >= 0; i--) {
+              if (!isActive) return;
+              setDisplayText(currentKeyword.substring(0, i));
+              await new Promise((r) => setTimeout(r, delTime));
+            }
+
+            if (isActive) {
+              setSearchIndex((prev) => (prev + 1) % SEARCHES.length);
+            }
+          };
+
+          runCycle();
+          return () => {
+            isActive = false;
+          };
+        }, [searchIndex]);
+
+        const currentSearch = SEARCHES[searchIndex];
+
+        return (
+          <React.Fragment>
+            {currentSearch.products.map((p, index) => {
+              const blurPx = (p.distance / 15) * 3;
+              const opVal = Math.max(0.4, 1 - (p.distance / 15) * 0.5);
+              const isVisible = phase === "SHOWING";
+
+              return (
+                <div
+                  key={p.id}
+                  className={`absolute ${p.distance < 5 ? "z-30" : "z-10"} hidden md:block ${isVisible ? "hover:z-50" : ""}`}
+                  style={{
+                    left: p.left,
+                    right: p.right,
+                    top: p.top,
+                    bottom: p.bottom,
+                  }}
+                >
+                  <div
+                    className={`diorama-item group transition-all duration-500 ${isVisible ? "cursor-pointer hover:!blur-none hover:!opacity-100 hover:-translate-y-2" : ""}`}
+                    style={{
+                      position: "relative",
+                      transform: `scale(${p.scale})`,
+                      filter: `blur(${blurPx}px)`,
+                      opacity: opVal,
+                    }}
+                  >
+                    <div
+                      className={`diorama-card ${isVisible ? "animate-pop-in" : shownIndex === searchIndex ? "animate-pop-out" : "opacity-0"}`}
+                      style={{
+                        animationDelay: isVisible ? `${index * 0.3}s` : "0s",
+                      }}
+                    >
+                      <div
+                        className="diorama-card-img"
+                        style={{ backgroundImage: `url('${p.img}')` }}
+                      ></div>
+                      <div className="diorama-card-info">
+                        <h4>{p.title}</h4>
+                        <span className="diorama-price">{p.price}</span>
+                        <span className="diorama-distance">
+                          {p.distance.toFixed(1)} km away
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      className={`diorama-pin ${isVisible ? "animate-pin-grow" : shownIndex === searchIndex ? "animate-pin-shrink" : "opacity-0"}`}
+                      style={{
+                        animationDelay: isVisible ? `${index * 0.3}s` : "0s",
+                      }}
+                    ></div>
+                    <div
+                      className="diorama-shadow"
+                      style={{
+                        opacity: isVisible ? 1 : 0,
+                        transition: "opacity 0.4s",
+                      }}
+                    ></div>
+                  </div>
+                </div>
+              );
+            })}
+
+            <div className="z-20 relative w-[340px] h-[720px] bg-gray-900 rounded-[3.5rem] p-[12px] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)] ring-1 ring-white/10 transform transition-transform duration-700 hover:scale-[1.02]">
+              <div className="absolute w-[4px] h-[32px] bg-gray-800 -left-[4px] top-[110px] rounded-l-md border-y border-l border-white/10 shadow-inner"></div>
+              <div className="absolute w-[4px] h-[60px] bg-gray-800 -left-[4px] top-[170px] rounded-l-md border-y border-l border-white/10 shadow-inner"></div>
+              <div className="absolute w-[4px] h-[60px] bg-gray-800 -left-[4px] top-[245px] rounded-l-md border-y border-l border-white/10 shadow-inner"></div>
+              <div className="absolute w-[4px] h-[90px] bg-gray-800 -right-[4px] top-[190px] rounded-r-md border-y border-r border-white/10 shadow-inner"></div>
+
+              <div
+                className="w-full h-full bg-[#FFF8F5] rounded-[2.8rem] overflow-hidden relative flex flex-col"
+                style={{ fontFamily: "'Manrope', sans-serif" }}
+              >
+                <div className="absolute top-0 w-full h-8 flex justify-between items-center px-6 z-[200] text-[#1E1B18] text-[12px] font-medium pt-2 pointer-events-none">
+                  <span>9:41</span>
+                  <div className="flex items-center gap-1.5 opacity-80">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v2h-2v-2zm0-10h2v8h-2V7z" />
+                    </svg>
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                    </svg>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <rect x="2" y="7" width="20" height="10" rx="2" ry="2" />
+                      <path d="M22 11v2" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[140px] h-[30px] bg-gray-900 rounded-b-[1.2rem] z-[100] flex justify-center items-center pointer-events-none">
+                  <div className="w-16 h-1.5 bg-gray-800 rounded-full mt-2 opacity-50"></div>
+                  <div className="absolute right-4 top-2.5 w-2.5 h-2.5 rounded-full bg-blue-900/40 flex items-center justify-center ring-1 ring-white/5">
+                    <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between px-2 pt-12 pb-2 bg-[#FFF8F5] z-50">
+                  <button className="p-2 ml-2 text-[#1E1B18] bg-transparent border-none outline-none pointer-events-none">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="28"
+                      height="28"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <line x1="3" x2="21" y1="12" y2="12" />
+                      <line x1="3" x2="21" y1="6" y2="6" />
+                      <line x1="3" x2="21" y1="18" y2="18" />
+                    </svg>
+                  </button>
+                  <h1 className="text-[24px] font-semibold text-[#1E1B18] tracking-[-1px] leading-[1.4] -ml-2"><%= __('index_text_1') %></h1>
+                  <div className="w-10"></div>
+                </div>
+
+                <div className="flex-1 flex flex-col relative z-10 w-full h-full">
+                  <div className="flex-1 flex flex-col items-center justify-center px-6 pb-32">
+                    <div
+                      className={`flex flex-col items-center transition-opacity duration-500 ease-in-out w-full ${isFilterOpen ? "opacity-0 pointer-events-none absolute" : "opacity-100 relative"}`}
+                    >
+                      <img
+                        src="/images/hand-drawn-vase.webp"
+                        alt="Vase"
+                        className="h-[160px] object-contain mb-4"
+                      />
+                      <p className="text-center text-[#605E5B] italic text-[15px] leading-[1.5] px-6 font-normal mb-8">
+                        Telusuri tiap hal yang ingin kamu cari...
+                      </p>
+                    </div>
+
+                    <div className="w-full relative z-20 transition-transform duration-500 ease-out">
+                      <div className="bg-white rounded-[32px] flex items-center pr-2 shadow-[0_8px_20px_rgba(139,94,60,0.08)] border border-[#83746b]/10">
+                        <input
+                          type="text"
+                          placeholder=""
+                          className="flex-1 bg-transparent border-none outline-none text-[15px] text-[#1E1B18] placeholder-[#83746b] font-normal leading-[1.6] py-[16px] px-[20px] pointer-events-none"
+                          value={displayText}
+                          readOnly
+                          disabled
+                        />
+                        <div className="pr-1">
+                          <button className="w-[38px] h-[38px] rounded-full bg-[#6F4627] flex items-center justify-center text-white shrink-0 shadow-sm border-none outline-none pointer-events-none">
+                            <img
+                              src="/images/settings.webp"
+                              alt="Settings"
+                              className="w-[20px] h-[20px] object-contain invert brightness-0"
+                            />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-[#1E1B18]/40 rounded-full z-[100] pointer-events-none"></div>
+              </div>
+            </div>
+          </React.Fragment>
+        );
+      };
+
+      const root = ReactDOM.createRoot(
+        document.getElementById("react-hero-section"),
+      );
+      root.render(<HeroSection />);
+    </script>
+
+    <section class="about-section">
+      <div class="about-header">
+        <h2 class="about-title"><%= __('index_text_10') %></h2>
+        <p class="about-description"><%= __('index_text_11') %></p>
+      </div>
+
+      <div class="about-cards-container">
+        <!-- Card 1 -->
+        <div class="flex flex-col flex-1 gap-0 about-intro-group relative">
+          <img
+            src="/images/character_2.webp"
+            class="w-full h-[400px] object-contain block about-intro-img relative z-0"
+            alt="Character 2"
+          />
+          <div class="w-full flex-1 bg-[#ffffff] border-[3px] border-[#6f4627] rounded-3xl shadow-[0_10px_30px_rgba(111,70,39,0.08)] p-6 md:p-8 flex flex-col about-intro-card relative z-10">
+             <div class="mb-6 border-b border-[#8b5e3c]/10 pb-5">
+               <h3 class="text-3xl font-bold text-[#6f4627] mb-1 text-center tracking-tight"><%= __('index_text_12') %></h3>
+               <p class="text-center text-[#8b5e3c]/80 font-semibold uppercase tracking-widest text-xs"><%= __('index_text_13') %></p>
+             </div>
+             <div class="space-y-4 flex-1">
+                <div class="flex items-start gap-4 p-3 hover:bg-[#fff8f5] rounded-xl transition-colors border border-transparent hover:border-[#8b5e3c]/10">
+                  <div class="mt-1 flex-shrink-0 w-7 h-7 rounded-full bg-[#fbf2ed] border border-[#8b5e3c]/30 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-[#6f4627]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-[#51443c] text-base mb-1"><%= __('index_text_14') %></h4>
+                    <p class="text-[#83746b] text-[0.95rem] leading-relaxed"><%= __('index_text_15') %></p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-4 p-3 hover:bg-[#fff8f5] rounded-xl transition-colors border border-transparent hover:border-[#8b5e3c]/10">
+                  <div class="mt-1 flex-shrink-0 w-7 h-7 rounded-full bg-[#fbf2ed] border border-[#8b5e3c]/30 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-[#6f4627]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-[#51443c] text-base mb-1"><%= __('index_text_16') %></h4>
+                    <p class="text-[#83746b] text-[0.95rem] leading-relaxed"><%= __('index_text_17') %></p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-4 p-3 hover:bg-[#fff8f5] rounded-xl transition-colors border border-transparent hover:border-[#8b5e3c]/10">
+                  <div class="mt-1 flex-shrink-0 w-7 h-7 rounded-full bg-[#fbf2ed] border border-[#8b5e3c]/30 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-[#6f4627]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-[#51443c] text-base mb-1"><%= __('index_text_18') %></h4>
+                    <p class="text-[#83746b] text-[0.95rem] leading-relaxed"><%= __('index_text_19') %></p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-4 p-3 hover:bg-[#fff8f5] rounded-xl transition-colors border border-transparent hover:border-[#8b5e3c]/10">
+                  <div class="mt-1 flex-shrink-0 w-7 h-7 rounded-full bg-[#fbf2ed] border border-[#8b5e3c]/30 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-[#6f4627]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-[#51443c] text-base mb-1"><%= __('index_text_20') %></h4>
+                    <p class="text-[#83746b] text-[0.95rem] leading-relaxed"><%= __('index_text_21') %></p>
+                  </div>
+                </div>
+             </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="flex flex-col flex-1 gap-0 about-intro-group relative">
+          <img
+            src="/images/character_1.webp"
+            class="w-full h-[400px] object-contain block about-intro-img relative z-0"
+            alt="Character 1"
+          />
+          <div class="w-full flex-1 bg-[#ffffff] border-[3px] border-[#6f4627] rounded-3xl shadow-[0_10px_30px_rgba(111,70,39,0.08)] p-6 md:p-8 flex flex-col about-intro-card relative z-10">
+             <div class="mb-6 border-b border-[#8b5e3c]/10 pb-5">
+               <h3 class="text-3xl font-bold text-[#6f4627] mb-1 text-center tracking-tight"><%= __('index_text_22') %></h3>
+               <p class="text-center text-[#8b5e3c]/80 font-semibold uppercase tracking-widest text-xs"><%= __('index_text_23') %></p>
+             </div>
+             <div class="space-y-4 flex-1">
+                <div class="flex items-start gap-4 p-3 hover:bg-[#fff8f5] rounded-xl transition-colors border border-transparent hover:border-[#8b5e3c]/10">
+                  <div class="mt-1 flex-shrink-0 w-7 h-7 rounded-full bg-[#fbf2ed] border border-[#8b5e3c]/30 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-[#6f4627]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-[#51443c] text-base mb-1"><%= __('index_text_24') %></h4>
+                    <p class="text-[#83746b] text-[0.95rem] leading-relaxed"><%= __('index_text_25') %></p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-4 p-3 hover:bg-[#fff8f5] rounded-xl transition-colors border border-transparent hover:border-[#8b5e3c]/10">
+                  <div class="mt-1 flex-shrink-0 w-7 h-7 rounded-full bg-[#fbf2ed] border border-[#8b5e3c]/30 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-[#6f4627]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-[#51443c] text-base mb-1"><%= __('index_text_26') %></h4>
+                    <p class="text-[#83746b] text-[0.95rem] leading-relaxed"><%= __('index_text_27') %></p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-4 p-3 hover:bg-[#fff8f5] rounded-xl transition-colors border border-transparent hover:border-[#8b5e3c]/10">
+                  <div class="mt-1 flex-shrink-0 w-7 h-7 rounded-full bg-[#fbf2ed] border border-[#8b5e3c]/30 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-[#6f4627]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-[#51443c] text-base mb-1"><%= __('index_text_28') %></h4>
+                    <p class="text-[#83746b] text-[0.95rem] leading-relaxed"><%= __('index_text_29') %></p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-4 p-3 hover:bg-[#fff8f5] rounded-xl transition-colors border border-transparent hover:border-[#8b5e3c]/10">
+                  <div class="mt-1 flex-shrink-0 w-7 h-7 rounded-full bg-[#fbf2ed] border border-[#8b5e3c]/30 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-[#6f4627]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-[#51443c] text-base mb-1"><%= __('index_text_30') %></h4>
+                    <p class="text-[#83746b] text-[0.95rem] leading-relaxed"><%= __('index_text_31') %></p>
+                  </div>
+                </div>
+             </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="flex flex-col flex-1 gap-0 about-intro-group relative">
+          <img
+            src="/images/character_3.webp"
+            class="w-full h-[400px] object-contain block about-intro-img relative z-0"
+            alt="Character 3"
+          />
+          <div class="w-full flex-1 bg-[#ffffff] border-[3px] border-[#6f4627] rounded-3xl shadow-[0_10px_30px_rgba(111,70,39,0.08)] p-6 md:p-8 flex flex-col about-intro-card relative z-10">
+             <div class="mb-6 border-b border-[#8b5e3c]/10 pb-5">
+               <h3 class="text-3xl font-bold text-[#6f4627] mb-1 text-center tracking-tight"><%= __('index_text_32') %></h3>
+               <p class="text-center text-[#8b5e3c]/80 font-semibold uppercase tracking-widest text-xs"><%= __('index_text_33') %></p>
+             </div>
+             <div class="space-y-4 flex-1">
+                <div class="flex items-start gap-4 p-3 hover:bg-[#fff8f5] rounded-xl transition-colors border border-transparent hover:border-[#8b5e3c]/10">
+                  <div class="mt-1 flex-shrink-0 w-7 h-7 rounded-full bg-[#fbf2ed] border border-[#8b5e3c]/30 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-[#6f4627]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-[#51443c] text-base mb-1"><%= __('index_text_34') %></h4>
+                    <p class="text-[#83746b] text-[0.95rem] leading-relaxed"><%= __('index_text_35') %></p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-4 p-3 hover:bg-[#fff8f5] rounded-xl transition-colors border border-transparent hover:border-[#8b5e3c]/10">
+                  <div class="mt-1 flex-shrink-0 w-7 h-7 rounded-full bg-[#fbf2ed] border border-[#8b5e3c]/30 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-[#6f4627]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-[#51443c] text-base mb-1"><%= __('index_text_36') %></h4>
+                    <p class="text-[#83746b] text-[0.95rem] leading-relaxed"><%= __('index_text_37') %></p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-4 p-3 hover:bg-[#fff8f5] rounded-xl transition-colors border border-transparent hover:border-[#8b5e3c]/10">
+                  <div class="mt-1 flex-shrink-0 w-7 h-7 rounded-full bg-[#fbf2ed] border border-[#8b5e3c]/30 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-[#6f4627]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-[#51443c] text-base mb-1"><%= __('index_text_38') %></h4>
+                    <p class="text-[#83746b] text-[0.95rem] leading-relaxed"><%= __('index_text_39') %></p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-4 p-3 hover:bg-[#fff8f5] rounded-xl transition-colors border border-transparent hover:border-[#8b5e3c]/10">
+                  <div class="mt-1 flex-shrink-0 w-7 h-7 rounded-full bg-[#fbf2ed] border border-[#8b5e3c]/30 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-[#6f4627]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-[#51443c] text-base mb-1"><%= __('index_text_40') %></h4>
+                    <p class="text-[#83746b] text-[0.95rem] leading-relaxed"><%= __('index_text_41') %></p>
+                  </div>
+                </div>
+             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="diorama-section" id="dioramaSection">
+      <div class="diorama-header">
+        <h2 class="diorama-title"><%= __('index_text_42') %></h2>
+        <p class="diorama-subtitle"><%= __('index_text_43') %></p>
+      </div>
+
+      <div
+        class="map-stage"
+        style="
+          position: relative;
+          width: 100%;
+          max-width: 1400px;
+          margin-top: 5vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 24px;
+        "
+      >
+        <img
+          src="/images/City%20DiEtalase.webp"
+          alt="City Map"
+          style="width: 100%; height: auto; object-fit: cover; border-radius: 24px; mix-blend-mode: multiply;"
+        />
+
+        <!-- Pin 1: Bag Store -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 67.46%; left: 25.79%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_44') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_45') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 2: Saloon -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 29.75%; left: 26.71%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.121 14.121L19 19m-7-7l3-3m-3 3L8 8m4 4l-4 4m4-4l-3-3m3 3l3 3M8 8a2 2 0 10-4 0 2 2 0 004 0zm8 8a2 2 0 10-4 0 2 2 0 004 0z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_46') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_47') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 3: Comic store -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 66.15%; left: 46.29%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_48') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_49') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 4: Minimarket -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 40.88%; left: 13.93%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_50') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_51') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 5: Billiard -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 53.58%; left: 85.14%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_52') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_53') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 6: Woodwork -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 15.34%; left: 54.43%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_54') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_55') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 7: Sport -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 85.53%; left: 42.00%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_56') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_57') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 8: Cattle -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 89.07%; left: 31.00%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_58') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_59') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 9: Computer -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 42.45%; left: 38.43%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_60') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_61') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 10: Antique -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 32.63%; left: 50.14%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_62') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_63') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 11: Bimble -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 38.91%; left: 89.36%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_64') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_65') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 12: Tour -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 90.38%; left: 70.93%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_66') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_67') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 13: Spa -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 9.71%; left: 31.71%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <!-- ICON: Spa (Sparkles/Flower) -->
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21v-8m0 0a4 4 0 00-4-4H5.5c-1.5 0-2.5 1-2.5 2.5V13a4 4 0 004 4h1m4-4a4 4 0 014-4h2.5c1.5 0 2.5 1 2.5 2.5V13a4 4 0 01-4 4h-1"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_68') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_69') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 14: Custom Leather Footwear maker -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 16.91%; left: 27.71%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <!-- ICON: Shoe/Scissor/Craft -->
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.121 15.536c-1.171 1.952-3.07 1.952-4.242 0-1.172-1.953-1.172-5.119 0-7.072 1.171-1.952 3.07-1.952 4.242 0M8 10.5h8m-1-4h.01"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_70') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_71') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 15: Italian food restaurant -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 27.78%; left: 37.79%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <!-- ICON: Pizza/Food -->
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_72') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_73') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 16: Barbershop -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 25.42%; left: 41.86%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <!-- ICON: Scissors -->
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.121 14.121L19 19m-7-7l3-3m-3 3L8 8m4 4l-4 4m4-4l-3-3m3 3l3 3M8 8a2 2 0 10-4 0 2 2 0 004 0zm8 8a2 2 0 10-4 0 2 2 0 004 0z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_74') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_75') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 17: Art display -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 28.17%; left: 64.00%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <!-- ICON: Palette/Brush -->
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_76') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_77') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 18: Bakery and cake -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 20.32%; left: 70.07%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <!-- ICON: Cake/Bake -->
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_78') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_65') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 19: Cafe -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 37.60%; left: 44.57%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <!-- ICON: Coffee -->
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 8.25V15a3 3 0 01-3 3H7a3 3 0 01-3-3V8.25m16 0A3.75 3.75 0 0016.25 4.5h-8.5A3.75 3.75 0 004 8.25m16 0v2.5a1.5 1.5 0 01-1.5 1.5h-1a1.5 1.5 0 01-1.5-1.5v-2.5"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_79') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_80') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 20: Curtain shop -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 43.36%; left: 26.36%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <!-- ICON: Fabric -->
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_81') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_82') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 21: Electrical Workshop -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 77.94%; left: 17.21%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <!-- ICON: Lightning/Electric -->
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_83') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_84') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 22: Minimarket -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 76.63%; left: 35.00%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <!-- ICON: Store -->
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_85') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_86') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 23: Bicycle Store -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 84.88%; left: 26.14%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <!-- ICON: Wheel/Circle -->
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 22a10 10 0 110-20 10 10 0 010 20zM12 6a6 6 0 100 12 6 6 0 000-12z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_87') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_88') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 24: Music Station -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 83.31%; left: 12.93%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <!-- ICON: Music Note -->
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_89') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_90') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 25: Book store -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 54.63%; left: 63.29%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <!-- ICON: Book -->
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_91') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_92') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 26: Electronic store -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 45.98%; left: 74.00%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <!-- ICON: Electronic/CPU -->
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m14-6h2m-2 6h2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_93') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_94') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 27: Chicken and cow farm -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 22.28%; left: 87.57%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <!-- ICON: Tractor/Farm -->
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_95') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_96') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 28: Law Team Office -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 75.58%; left: 66.57%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <!-- ICON: Briefcase/Office -->
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_97') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_98') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 29: Game Station -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 56.46%; left: 74.21%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_99') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_80') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+
+        <!-- Pin 32: Fancy Restaurant -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 62.35%; left: 14.57%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-4a2 2 0 00-2-2h-4l-3-3m0 0l-3 3H6a2 2 0 00-2 2v4"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_100') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_88') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 33: Korean Food -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 30.40%; left: 73.29%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_101') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_57') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 34: Anime/Cosplay Store -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 53.45%; left: 25.36%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_102') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_63') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 35: Clothes Store -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 26.60%; left: 13.71%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_103') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_82') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 36: Flower Store -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 53.58%; left: 10.86%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_104') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_47') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 37: Massage Place -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 64.71%; left: 71.36%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21v-8m0 0a4 4 0 00-4-4H5.5c-1.5 0-2.5 1-2.5 2.5V13a4 4 0 004 4h1m4-4a4 4 0 014-4h2.5c1.5 0 2.5 1 2.5 2.5V13a4 4 0 01-4 4h-1"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_105') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_106') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 38: Yoga Place -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 83.96%; left: 58.07%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.514"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_107') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_53') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 39: Pet Store -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 76.63%; left: 81.21%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_108') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_109') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+
+        <!-- Pin 40: Sculpture Company -->
+        <div class="absolute group cursor-pointer opacity-0 translate-y-6 transition-all duration-500 ease-out map-pin" style="top: 67.98%; left: 87.21%; z-index: 10;">
+          <div class="absolute left-0 bottom-0 w-8 h-10 -translate-x-1/2 origin-bottom group-hover:scale-110 transition-transform">
+            <svg class="w-full h-full drop-shadow-[0_5px_8px_rgba(0,0,0,0.35)]" viewBox="0 0 384 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M192 0C85.961 0 0 85.961 0 192c0 77.413 26.97 99.031 172.268 309.67 9.535 13.774 29.93 13.773 39.464 0C357.03 291.031 384 269.413 384 192c0-106.039-85.961-192-192-192z" fill="#ffffff"/><circle cx="192" cy="192" r="80" fill="#6f4627"/></svg>
+          </div>
+          <div class="absolute bottom-[40px] left-0 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto bg-white rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] p-3 w-[220px] border border-[#8b5e3c]/10 z-20 translate-y-2 group-hover:translate-y-0 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-lg bg-[#fbf2ed] flex items-center justify-center shrink-0 border border-[#8b5e3c]/20 text-[#6f4627]">
+               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"></path></svg>
+            </div>
+            <div class="flex-1 overflow-hidden">
+              <h4 class="font-bold text-[#51443c] text-[0.9rem] leading-tight truncate"><%= __('index_text_110') %></h4>
+              <p class="text-[#83746b] text-[0.75rem] flex items-center gap-1 mt-1 font-medium">
+                <svg class="w-3 h-3 text-[#eb5a3e]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><%= __('index_text_111') %></p>
+            </div>
+            <div class="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-white border-b border-r border-[#8b5e3c]/10 rotate-45"></div>
+          </div>
+        </div>
+        <div
+          style="
+            position: absolute;
+            inset: 0;
+            background:
+              linear-gradient(
+                to right,
+                var(--surface-container-lowest) 0%,
+                transparent 20%,
+                transparent 80%,
+                var(--surface-container-lowest) 100%
+              ),
+              linear-gradient(
+                to bottom,
+                var(--surface-container-lowest) 0%,
+                transparent 20%,
+                transparent 80%,
+                var(--surface-container-lowest) 100%
+              );
+            pointer-events: none;
+          "
+        ></div>
+        
+        <!-- Woman Thinking Image -->
+        <img
+          src="/images/woman_thinking_hmmm.webp"
+          alt="Woman Thinking"
+          style="position: absolute; bottom: 0; right: -5%; height: 70%; width: auto; z-index: 15; object-fit: contain; object-position: right bottom; transform: translateX(5%); pointer-events: none;"
+        />
+      </div>
+    </section>
+
+    <section class="ledger-section" id="ledgerSection">
+      <div class="ledger-header">
+        <h2 class="ledger-title"><%= __('index_text_112') %></h2>
+        <p class="ledger-subtitle"><%- __('index_text_113') %></p>
+      </div>
+
+      <div class="atelier-grid">
+        <!-- Point 1 -->
+        <div class="atelier-item level-1">
+          <img
+            class="atelier-img"
+            src="/images/3step_1.webp"
+            alt="Step 1: Discover Nearby."
+          />
+          <div class="atelier-content">
+            <div class="atelier-number">01</div>
+            <h3 class="atelier-item-title"><%= __('index_text_114') %></h3>
+            <p class="atelier-item-desc"><%= __('index_text_115') %></p>
+          </div>
+        </div>
+
+        <!-- Point 2 -->
+        <div class="atelier-item level-2">
+          <img
+            class="atelier-img"
+            src="/images/3step_2.webp"
+            alt="Step 2: Locate & Visit."
+          />
+          <div class="atelier-content">
+            <div class="atelier-number">02</div>
+            <h3 class="atelier-item-title"><%= __('index_text_116') %></h3>
+            <p class="atelier-item-desc"><%= __('index_text_117') %></p>
+          </div>
+        </div>
+
+        <!-- Point 3 -->
+        <div class="atelier-item level-3">
+          <img
+            class="atelier-img"
+            src="/images/3step_3.webp"
+            alt="Step 3: Purchase & Enjoy."
+          />
+          <div class="atelier-content">
+            <div class="atelier-number">03</div>
+            <h3 class="atelier-item-title"><%= __('index_text_118') %></h3>
+            <p class="atelier-item-desc"><%= __('index_text_119') %></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="status-quo-section" id="statusQuoSection">
+      <div class="status-header">
+        <h2 class="status-title"><%= __('index_text_120') %></h2>
+        <p class="status-subtitle"><%= __('index_text_121') %></p>
+      </div>
+
+      <div class="status-split">
+        <!-- Consumer Column -->
+        <div class="status-column">
+          <div class="thought-container" id="consumerThoughts">
+            <div class="thought-text"><%= __('index_text_122') %></div>
+            <div class="thought-text"><%= __('index_text_123') %></div>
+            <div class="thought-text"><%= __('index_text_124') %></div>
+            <div class="thought-text"><%= __('index_text_125') %></div>
+          </div>
+          <img
+            src="/images/costumer_sad.webp"
+            alt="Frustrated Consumer"
+            class="status-character consumer-character"
+          />
+        </div>
+
+        <!-- Artisan Column -->
+        <div class="status-column">
+          <div class="thought-container" id="artisanThoughts">
+            <div class="thought-text"><%= __('index_text_126') %></div>
+            <div class="thought-text"><%= __('index_text_127') %></div>
+            <div class="thought-text"><%= __('index_text_128') %></div>
+            <div class="thought-text"><%= __('index_text_129') %></div>
+          </div>
+          <img
+            src="/images/owner_sad.webp"
+            alt="Frustrated Artisan"
+            class="status-character"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 7: Download CTA -->
+    <section class="download-cta-section relative overflow-hidden flex flex-col items-center justify-center text-center px-6" style="background-color: #fff8f5; min-height: 100vh; width: 100vw;">
+      
+      <!-- Desktop characters pointing (Hidden on mobile/tablet) -->
+      <img src="/images/pointing_char_1.webp" alt="Pointing Character Left" class="hidden lg:block absolute" style="bottom: -2vh; left: 4vw; height: 75vh; object-fit: contain; pointer-events: none; z-index: 5;" />
+      <img src="/images/pointing_char_2.webp" alt="Pointing Character Right" class="hidden lg:block absolute" style="bottom: -2vh; right: 4vw; height: 75vh; object-fit: contain; pointer-events: none; z-index: 5;" />
+
+      <h2 class="text-4xl md:text-5xl lg:text-[4rem]" style="font-family: 'Outfit', sans-serif; font-weight: 700; color: #51443c; max-width: 800px; margin-bottom: 1.5rem; line-height: 1.2; z-index: 10;"><%= __('index_text_130') %></h2>
+      <p style="font-size: 1.15rem; color: #83746b; max-width: 700px; line-height: 1.6; margin-bottom: 1rem; z-index: 10;"><%= __('index_text_131') %></p>
+
+      <div class="relative z-10 w-full flex justify-center mt-12 mb-20 md:mb-0">
+        <a href="#" onclick="openComingSoonModal(event)" style="
+          background-color: #6f4627;
+          color: #fff8f5;
+          padding: 19px 36px;
+          border-radius: 9999px;
+          display: inline-flex;
+          align-items: center;
+          gap: 14px;
+          text-decoration: none;
+          font-family: 'Outfit', sans-serif;
+          font-weight: 600;
+          font-size: 1.25rem;
+          box-shadow: 0 8px 25px rgba(111, 70, 39, 0.25);
+          transition: transform 0.2s ease;
+          z-index: 10;
+        " onmouseover="this.style.transform = 'scale(1.05)'" onmouseout="this.style.transform = 'scale(1)'">
+          <svg viewBox="0 0 512 512" style="width: 28px; height: 28px; fill: currentColor">
+            <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z" />
+          </svg><%= __('index_text_2') %></a>
+      </div>
+    </section>
+
+    <!-- Unified Responsive Footer -->
+    <footer class="w-full bg-[#6f4627] px-6 md:px-12 py-12 md:py-16 border-t border-[#5c3a20] relative z-20 text-center md:text-left">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center md:items-start justify-between gap-10 md:gap-6 text-[#ffe3d1]">
+        
+        <!-- Brand & Tagline -->
+        <div class="flex flex-col items-center md:items-start gap-4 max-w-sm">
+          <div class="flex items-center gap-3">
+            <img src="/images/dietalase_icon.webp" alt="DiEtalase Logo" class="w-8 h-8 object-contain opacity-90" />
+            <h2 class="font-bold tracking-wide text-2xl text-[#ffe3d1]"><%= __('index_text_1') %></h2>
+          </div>
+          <p class="text-sm text-[#ffe3d1]/70 leading-relaxed italic"><%= __('index_text_132') %></p>
+        </div>
+        
+        <!-- Quick Links -->
+        <div class="flex flex-col items-center md:items-start gap-3">
+          <h3 class="font-bold uppercase tracking-wider text-xs text-[#ffe3d1]/50 mb-1"><%= __('index_text_133') %></h3>
+          <a href="#" class="text-sm hover:text-white text-[#ffe3d1]/80 transition text-decoration-none"><%= __('index_text_134') %></a>
+          <a href="#" class="text-sm hover:text-white text-[#ffe3d1]/80 transition text-decoration-none"><%= __('index_text_22') %></a>
+          <a href="#" class="text-sm hover:text-white text-[#ffe3d1]/80 transition text-decoration-none"><%= __('index_text_12') %></a>
+          <a href="#" class="text-sm hover:text-white text-[#ffe3d1]/80 transition text-decoration-none"><%= __('index_text_135') %></a>
+        </div>
+
+        <!-- Legal & Terms -->
+        <div class="flex flex-col items-center md:items-start gap-3">
+          <h3 class="font-bold uppercase tracking-wider text-xs text-[#ffe3d1]/50 mb-1"><%= __('index_text_136') %></h3>
+          <a href="#" class="text-sm hover:text-white text-[#ffe3d1]/80 transition text-decoration-none"><%= __('index_text_137') %></a>
+          <a href="#" class="text-sm hover:text-white text-[#ffe3d1]/80 transition text-decoration-none"><%= __('index_text_138') %></a>
+          <a href="#" class="text-sm hover:text-white text-[#ffe3d1]/80 transition text-decoration-none"><%= __('index_text_139') %></a>
+        </div>
+
+        <!-- Social & Copyright -->
+        <div class="flex flex-col items-center md:items-end gap-6">
+          <div class="flex gap-4">
+            <a href="#" class="text-[#ffe3d1]/70 hover:text-white transition">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+            </a>
+            <a href="#" class="text-[#ffe3d1]/70 hover:text-white transition">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+          </div>
+          <span class="text-xs text-[#ffe3d1]/50"><%= __('index_text_140') %></span>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Mobile & Desktop Menu Logic
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const desktopMenuBtn = document.getElementById('desktopMenuBtn');
+        const mobileMenuGrid = document.getElementById('mobileMenuGrid');
+        const mobileMenuLinks = document.getElementById('mobileMenuLinks');
+        const mobileMenuIcon = document.getElementById('mobileMenuIcon');
+        const desktopMenuIcon = document.getElementById('desktopMenuIcon');
+        const mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
+        
+        let isMobileMenuOpen = false;
+
+        function closeMobileMenu() {
+          isMobileMenuOpen = false;
+          if (mobileMenuGrid) mobileMenuGrid.style.maxHeight = '0px';
+          if (mobileMenuLinks) {
+            mobileMenuLinks.classList.add('opacity-0');
+            mobileMenuLinks.classList.remove('opacity-100');
+          }
+          if (mobileMenuIcon) mobileMenuIcon.style.transform = 'rotate(0deg)';
+          if (desktopMenuIcon) desktopMenuIcon.style.transform = 'rotate(0deg)';
+          if (mobileMenuBackdrop) {
+            mobileMenuBackdrop.classList.add('opacity-0', 'pointer-events-none');
+            mobileMenuBackdrop.classList.remove('opacity-100', 'pointer-events-auto');
+          }
+        }
+
+        function openMobileMenu() {
+          isMobileMenuOpen = true;
+          if (mobileMenuGrid) mobileMenuGrid.style.maxHeight = '500px';
+          if (mobileMenuLinks) {
+            mobileMenuLinks.classList.remove('opacity-0');
+            mobileMenuLinks.classList.add('opacity-100');
+          }
+          if (mobileMenuIcon) mobileMenuIcon.style.transform = 'rotate(180deg)';
+          if (desktopMenuIcon) desktopMenuIcon.style.transform = 'rotate(180deg)';
+          if (mobileMenuBackdrop) {
+            mobileMenuBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+            mobileMenuBackdrop.classList.add('opacity-100', 'pointer-events-auto');
+          }
+        }
+
+        if (mobileMenuBtn) {
+          mobileMenuBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (isMobileMenuOpen) {
+              closeMobileMenu();
+            } else {
+              openMobileMenu();
+            }
+          });
+        }
+        
+        if (desktopMenuBtn) {
+          desktopMenuBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (isMobileMenuOpen) {
+              closeMobileMenu();
+            } else {
+              openMobileMenu();
+            }
+          });
+        }
+
+        if (mobileMenuBackdrop) {
+          mobileMenuBackdrop.addEventListener('click', closeMobileMenu);
+        }
+
+        // Status Quo Thoughts Logic
+        const consumerThoughts = Array.from(
+          document.querySelectorAll("#consumerThoughts .thought-text"),
+        );
+        const artisanThoughts = Array.from(
+          document.querySelectorAll("#artisanThoughts .thought-text"),
+        );
+
+        let cIndex = 0;
+        const yLevels = ["top", "mid", "bottom"];
+        const yPositions = { top: "5%", mid: "35%", bottom: "65%" };
+
+        const consumerState = {
+          lastSide: "right",
+          lastY: "mid",
+          leftLastY: null,
+          rightLastY: null,
+          activeItems: [],
+        };
+        const artisanState = {
+          lastSide: "left",
+          lastY: "top",
+          leftLastY: null,
+          rightLastY: null,
+          activeItems: [],
+        };
+
+        function spawnThought(thoughtsArray, indexToSpawn, state) {
+          if (thoughtsArray.length === 0) return;
+          const t = thoughtsArray[indexToSpawn];
+
+          t.className = "thought-text"; // Reset classes
+
+          const side = state.lastSide === "left" ? "right" : "left";
+          state.lastSide = side;
+
+          // Cannot match the opposite side's current active Y, AND cannot match this side's previous Y
+          let availableY = yLevels.filter(
+            (y) => y !== state.lastY && y !== state[`${side}LastY`],
+          );
+
+          // Fallback if empty (should never happen with 3 levels, but safe to have)
+          if (availableY.length === 0)
+            availableY = yLevels.filter((y) => y !== state.lastY);
+
+          const yLvl =
+            availableY[Math.floor(Math.random() * availableY.length)];
+          state.lastY = yLvl;
+          state[`${side}LastY`] = yLvl;
+
+          t.style.top = yPositions[yLvl];
+          t.style.bottom = "auto";
+
+          if (side === "left") {
+            t.style.left = "-5%";
+            t.style.right = "auto";
+            t.classList.add("bubble-left");
+          } else {
+            t.style.right = "-5%";
+            t.style.left = "auto";
+            t.classList.add("bubble-right");
+          }
+          t.classList.add(`bubble-${yLvl}`);
+
+          requestAnimationFrame(() => {
+            t.classList.add("active");
+          });
+
+          // Add to queue
+          state.activeItems.push(t);
+
+          // Failsafe & Mobile restriction
+          const maxItems = window.innerWidth <= 1024 ? 1 : 2;
+          if (state.activeItems.length > maxItems) {
+            const old = state.activeItems.shift();
+            old.classList.remove("active");
+          }
+
+          setTimeout(() => {
+            t.classList.remove("active");
+            // Clean up queue
+            state.activeItems = state.activeItems.filter((item) => item !== t);
+          }, 5000); // Wait 5 seconds to disappear
+        }
+
+        function triggerNextThoughts() {
+          spawnThought(consumerThoughts, cIndex, consumerState);
+          spawnThought(artisanThoughts, cIndex, artisanState);
+          cIndex = (cIndex + 1) % consumerThoughts.length;
+        }
+
+        // Spawn first set immediately
+        triggerNextThoughts();
+
+        // Spawn next set every 2.5 seconds (half of 5s)
+        let thoughtInterval = setInterval(triggerNextThoughts, 2500);
+
+        // Catalyst Button Logic
+        const catalystButton = document.getElementById("catalystButton");
+        if (catalystButton) {
+          catalystButton.addEventListener("click", () => {
+            clearInterval(thoughtInterval);
+            const allThoughts = document.querySelectorAll(".thought-text");
+            allThoughts.forEach((t) => {
+              t.classList.add("dissolve");
+            });
+            catalystButton.innerHTML =
+              '<span style="color:#ffffff; font-size:2.5rem; font-weight:bold;">✓</span>';
+            catalystButton.style.backgroundColor = "#4caf50";
+            catalystButton.style.boxShadow = "0 0 20px rgba(76, 175, 80, 0.6)";
+
+            // Optional: Scroll down to the center of the combined section automatically
+            setTimeout(() => {
+              document
+                .getElementById("catalystSection")
+                .scrollIntoView({ behavior: "smooth", block: "center" });
+            }, 800);
+          });
+        }
+
+        // Diorama Section Logic (Removed to display Map instead)
+        const mapPins = document.querySelectorAll('.map-pin');
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              mapPins.forEach((pin, index) => {
+                setTimeout(() => {
+                  pin.classList.remove('opacity-0', 'translate-y-6');
+                  pin.classList.add('opacity-100', 'translate-y-0');
+                }, index * 40);
+              });
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+
+        const mapStage = document.querySelector('.map-stage');
+        if (mapStage && mapPins.length > 0) {
+          observer.observe(mapStage);
+        }
+
+        // About Section Intro Animation Logic
+        const aboutCardsContainer = document.querySelector('.about-cards-container');
+        const aboutIntroCards = document.querySelectorAll('.about-intro-card');
+        const aboutIntroImgs = document.querySelectorAll('.about-intro-img');
+        
+        const aboutObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              aboutIntroCards.forEach((card, index) => {
+                setTimeout(() => {
+                  card.classList.add('animate-in');
+                  // Image slides out from behind the card after the card starts moving
+                  setTimeout(() => {
+                    if (aboutIntroImgs[index]) {
+                      aboutIntroImgs[index].classList.add('animate-in');
+                    }
+                  }, 400); 
+                }, index * 300);
+              });
+              aboutObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+
+        if (aboutCardsContainer) {
+          aboutObserver.observe(aboutCardsContainer);
+        }
+        // Language Selector Logic
+        const langBtn = document.getElementById('languageSelectorBtn');
+        const langPanel = document.getElementById('languageOptionsPanel');
+        const langIcon = document.getElementById('languageSelectorIcon');
+        let isLangOpen = false;
+
+        if (langBtn) {
+          langBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            isLangOpen = !isLangOpen;
+            if (isLangOpen) {
+              langPanel.style.maxHeight = '250px';
+              langIcon.style.transform = 'rotate(180deg)';
+            } else {
+              langPanel.style.maxHeight = '0px';
+              langIcon.style.transform = 'rotate(0deg)';
+            }
+          });
+
+          // Close on outside click
+          document.addEventListener('click', (e) => {
+            if (isLangOpen && !document.getElementById('languageSelectorWrapper').contains(e.target)) {
+              isLangOpen = false;
+              langPanel.style.maxHeight = '0px';
+              langIcon.style.transform = 'rotate(0deg)';
+            }
+          });
+        }
+      });
+    </script>
+
+    <!-- Language Selector Floating Widget -->
+    <div id="languageSelectorWrapper" class="fixed bottom-0 left-4 md:left-8 z-50 w-[120px] rounded-t-xl overflow-hidden shadow-[0_-4px_20px_rgba(0,0,0,0.2)] bg-[#5c3a20] border border-[#4a2e19] border-b-0 pointer-events-auto">
+      <!-- Expanding Drop-up Panel -->
+      <div id="languageOptionsPanel" class="w-full bg-[#5c3a20] flex flex-col justify-end" style="max-height: 0px; transition: max-height 0.3s ease-in-out;">
+        <div class="flex flex-col w-full text-sm font-medium text-[#ffe3d1]">
+          <button onclick="window.location.href='/change-language/en?returnTo=' + encodeURIComponent(window.location.pathname + window.location.search)" class="flex items-center gap-3 px-4 py-3 bg-[#6f4627] hover:bg-[#6f4627] transition-colors w-full text-left border-b border-[#4a2e19] outline-none cursor-pointer text-[#ffe3d1]">
+            <span class="text-lg leading-none">🇬🇧</span>
+            <span><%= __('index_text_141') %></span>
+          </button>
+          <button onclick="window.location.href='/change-language/id?returnTo=' + encodeURIComponent(window.location.pathname + window.location.search)" class="flex items-center gap-3 px-4 py-3 bg-[#5c3a20] hover:bg-[#6f4627] transition-colors w-full text-left border-b border-[#4a2e19] outline-none cursor-pointer text-[#ffe3d1]">
+            <span class="text-lg leading-none">🇮🇩</span>
+            <span><%= __('index_text_142') %></span>
+          </button>
+          <button onclick="window.location.href='/change-language/jp?returnTo=' + encodeURIComponent(window.location.pathname + window.location.search)" class="flex items-center gap-3 px-4 py-3 bg-[#5c3a20] hover:bg-[#6f4627] transition-colors w-full text-left border-b border-[#4a2e19] outline-none cursor-pointer text-[#ffe3d1]">
+            <span class="text-lg leading-none">🇯🇵</span>
+            <span><%= __('index_text_143') %></span>
+          </button>
+          <button onclick="window.location.href='/change-language/ph?returnTo=' + encodeURIComponent(window.location.pathname + window.location.search)" class="flex items-center gap-3 px-4 py-3 bg-[#5c3a20] hover:bg-[#6f4627] transition-colors w-full text-left border-b border-[#4a2e19] outline-none cursor-pointer text-[#ffe3d1]">
+            <span class="text-lg leading-none">🇵🇭</span>
+            <span><%= __('index_text_144') %></span>
+          </button>
+        </div>
+      </div>
+      <!-- Trigger Button -->
+      <%
+        const loc = (typeof getLocale === 'function') ? getLocale() : 'en';
+        const flagMap = { en: '🇬🇧', id: '🇮🇩', jp: '🇯🇵', ph: '🇵🇭' };
+      %>
+      <button id="languageSelectorBtn" class="flex items-center justify-between w-full bg-[#5c3a20] hover:bg-[#6f4627] transition-colors px-4 py-3 pointer-events-auto border-none outline-none cursor-pointer" style="color: #ffe3d1;">
+        <div class="flex items-center gap-2 font-bold text-sm">
+          <span class="text-lg leading-none"><%= flagMap[loc] || '🇬🇧' %></span>
+          <span><%= loc.toUpperCase() %></span>
+        </div>
+        <svg id="languageSelectorIcon" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" /></svg>
+      </button>
+    </div>
+    <style>
+      .cs-modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(30, 27, 24, 0.6); z-index: 99999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); opacity: 0; transition: opacity 0.3s ease; }
+      .cs-modal-overlay.active { display: flex; opacity: 1; }
+      .cs-modal-content { background: white; padding: 32px 24px; border-radius: 20px; max-width: 400px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.1); transform: translateY(20px); transition: transform 0.3s ease; text-align: center; }
+      .cs-modal-overlay.active .cs-modal-content { transform: translateY(0); }
+      .cs-btn-primary { padding: 12px 24px; border-radius: 12px; background: #6f4627; color: white; border: none; cursor: pointer; width: 100%; font-weight: 600; font-family: 'Outfit', sans-serif; font-size: 1rem; transition: background 0.2s; }
+      .cs-btn-primary:hover { background: #5c3a20; }
+    </style>
+    <div class="cs-modal-overlay" id="coming-soon-modal">
+      <div class="cs-modal-content">
+        <div style="background: #fff3eb; padding: 20px; border-radius: 50%; display: inline-flex; margin-bottom: 20px;">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#6f4627" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+          </svg>
+        </div>
+        <h3 style="margin: 0 0 12px 0; font-size: 1.5rem; color: #1e1b18; font-family: 'Outfit', sans-serif; font-weight: 700;"><%= __('index_coming_soon_title') %></h3>
+        <p style="color: #666; line-height: 1.6; margin: 0 0 24px 0; font-family: 'Inter', sans-serif; font-size: 0.95rem;">
+          <%= __('index_coming_soon_desc') %>
+        </p>
+        <button class="cs-btn-primary" onclick="closeComingSoonModal()"><%= __('index_coming_soon_btn') %></button>
+      </div>
+    </div>
+    <script>
+      const csModal = document.getElementById('coming-soon-modal');
+      window.openComingSoonModal = function(e) {
+        if(e) e.preventDefault();
+        csModal.style.display = 'flex';
+        setTimeout(() => csModal.classList.add('active'), 10);
+      }
+      window.closeComingSoonModal = function() {
+        csModal.classList.remove('active');
+        setTimeout(() => csModal.style.display = 'none', 300);
+      }
+    </script>
+  </body>
+</html>

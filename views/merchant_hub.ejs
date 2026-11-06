@@ -1,0 +1,518 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DiEtalase - Merchant Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="/stylesheets/merchant_hub.css" rel="stylesheet" />
+    <style>
+      :root {
+        --primary: #6f4627;
+        --on-primary: #ffffff;
+        --primary-container: #8b5e3c;
+        --on-primary-container: #ffe3d1;
+      }
+      @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap");
+      body {
+        font-family: "Outfit", sans-serif;
+        background-color: #f9ecd9;
+        margin: 0;
+        overflow-x: hidden;
+        color: #4a362a;
+      }
+      h1, h2, h3, h4 {
+        font-family: "Playfair Display", serif;
+      }
+      .top-logo {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 16px 6vw;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: var(--primary);
+        z-index: 100;
+      }
+      .top-logo img {
+        width: 44px;
+        height: 44px;
+        object-fit: contain;
+      }
+      .top-logo-text {
+        font-size: 1.6rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+      @media (max-width: 1024px) {
+        .desktop-only { display: none !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="top-logo relative" style="z-index: 100;">
+      <a href="/" style="display: flex; align-items: center; gap: 12px; z-index: 100; text-decoration: none;">
+        <img src="/images/dietalase_icon.webp" alt="DiEtalase Logo" />
+        <span class="top-logo-text" style="color: #ffe3d1"><%= __('index_text_1') %></span>
+      </a>
+      
+      <div class="desktop-only" style="display: flex; align-items: center; gap: 24px;">
+        <a
+          href="#"
+          style="
+            background-color: #ffe3d1;
+            color: #6f4627;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            font-size: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease;
+          "
+          onmouseover="this.style.transform = 'scale(1.05)'"
+          onmouseout="this.style.transform = 'scale(1)'"
+        >
+          <svg
+            viewBox="0 0 512 512"
+            style="width: 20px; height: 20px; fill: currentColor"
+          >
+            <path
+              d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"
+            />
+          </svg><%= __('index_text_2') %></a>
+        <!-- Desktop Hamburger Menu -->
+        <button id="desktopMenuBtn" class="flex items-center justify-center p-2 rounded-full hover:bg-white/10 transition-colors focus:outline-none appearance-none border-none bg-transparent" style="color: #ffe3d1; cursor: pointer;">
+          <svg class="w-8 h-8 transition-transform duration-300" id="desktopMenuIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Wrapper -->
+      <div id="mobileMenuPanelWrapper" class="absolute flex flex-col items-end pointer-events-none" style="top: 99%; left: 0; right: 0; z-index: 40;">
+        
+        <!-- Expanding Panel -->
+        <div id="mobileMenuGrid" class="w-full pointer-events-auto" style="max-height: 0px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); transition: max-height 0.4s ease-in-out, box-shadow 0.4s ease-out;">
+          <div class="overflow-hidden w-full bg-[var(--primary)] text-[#ffe3d1] border-t border-white/5">
+            <div id="mobileMenuLinks" class="py-8 px-12 gap-5 flex flex-col w-full opacity-0" style="transition: opacity 0.3s ease-out 0.1s;">
+              <a href="/online-store" style="text-decoration: none; color: #ffe3d1;" class="flex items-center font-medium text-sm tracking-widest uppercase hover:text-white opacity-80 hover:opacity-100 transition">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg><%= __('index_text_3') %></a>
+              <a href="/merchant-hub" style="text-decoration: none; color: #ffe3d1;" class="flex items-center font-medium text-sm tracking-widest uppercase hover:text-white opacity-80 hover:opacity-100 transition">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg><%= __('index_text_4') %></a>
+              <a href="#" style="text-decoration: none; color: #ffe3d1;" class="flex items-center font-medium text-sm tracking-widest uppercase hover:text-white opacity-80 hover:opacity-100 transition">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg><%= __('index_text_5') %></a>
+              <a href="#" style="text-decoration: none; color: #ffe3d1;" class="flex items-center font-medium text-sm tracking-widest uppercase hover:text-white opacity-80 hover:opacity-100 transition">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><%= __('index_text_6') %></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Menu Tab -->
+        <button id="mobileMenuBtn" class="lg:hidden flex items-center justify-center gap-1 font-bold text-xs uppercase tracking-wider transition-colors duration-300 bg-transparent border-none outline-none focus:outline-none appearance-none pointer-events-auto" 
+          style="
+            margin-right: 12px; 
+            margin-top: -1px; 
+            color: #ffe3d1; 
+            padding: 8px 18px 10px 18px; 
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+          ">
+          <!-- Trapezoid Background -->
+          <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--primary); border-radius: 0 0 12px 12px; transform: perspective(20px) rotateX(-5deg); transform-origin: top; z-index: -1;"></div>
+          <span class="relative z-10 flex items-center gap-1" style="transform: translateY(-1px);"><%= __('index_text_7') %><svg id="mobileMenuIcon" class="w-4 h-4 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+          </span>
+        </button>
+      </div>
+    </header>
+    <!-- Hero Section -->
+    <section class="mh-hero">
+      <div class="mh-hero-content">
+        <h1><%= __('merchant_hub_text_8') %></h1>
+        <p><%= __('merchant_hub_text_9') %></p>
+        <button class="mh-btn-primary"><%= __('merchant_hub_text_10') %></button>
+      </div>
+      <div class="mh-hero-image">
+        <img src="/images/Hand_protecting_coin_pouch_202606281832.webp" alt="Hand protecting coin pouch" />
+      </div>
+    </section>
+
+    <!-- The Math Section -->
+    <section class="mh-math">
+      <div class="mh-container">
+        <h2><%= __('merchant_hub_text_11') %></h2>
+        <div class="mh-math-grid">
+          
+          <div class="mh-math-column">
+            <div class="mh-math-column-image">
+              <img src="/images/ecommerce_vector_nobg.webp" alt="E-Commerce" />
+            </div>
+            <div class="mh-math-card">
+              <h3><%= __('merchant_hub_text_12') %></h3>
+              <ul class="mh-math-list">
+                <li><strong>Base Commission</strong><%= __('merchant_hub_text_13') %></li>
+                <li><strong>Fixed Processing Fee</strong><%= __('merchant_hub_text_14') %></li>
+                <li><strong>Shipping & Voucher Badges</strong><%= __('merchant_hub_text_15') %></li>
+                <li><strong>Algorithm Ad Spend</strong><%= __('merchant_hub_text_16') %></li>
+                <li><strong>Total Deductions</strong><%= __('merchant_hub_text_17') %></li>
+                <li><strong>Pricing Model</strong><%= __('merchant_hub_text_18') %></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="mh-math-column">
+            <div class="mh-math-column-image">
+              <img src="/images/DiEtalase_Icon.webp" alt="DiEtalase" />
+            </div>
+            <div class="mh-math-card mh-highlight-card">
+              <h3 class="mh-text-primary"><%= __('index_text_1') %></h3>
+              <ul class="mh-math-list mh-math-list-primary">
+                <li><strong>Base Commission</strong><%= __('merchant_hub_text_19') %></li>
+                <li><strong>Fixed Processing Fee</strong><%= __('merchant_hub_text_19') %></li>
+                <li><strong>Shipping & Voucher Badges</strong><%= __('merchant_hub_text_19') %></li>
+                <li><strong>Algorithm Ad Spend</strong><%= __('merchant_hub_text_20') %></li>
+                <li><strong>Total Deductions</strong><%= __('merchant_hub_text_21') %></li>
+                <li><strong>Pricing Model</strong><%= __('merchant_hub_text_22') %></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Subscription Tiers -->
+    <section class="mh-tiers">
+      <div class="mh-container">
+        <h2><%= __('merchant_hub_text_23') %></h2>
+        <div class="mh-tiers-grid">
+          
+          <!-- Tier 1 -->
+          <div class="mh-tier-card mh-tier-popular">
+            <div class="mh-popular-badge"><%= __('merchant_hub_text_24') %></div>
+            <h3><%= __('merchant_hub_text_25') %></h3>
+            <div class="mh-tier-price"><%= __('merchant_hub_text_26') %><span class="mh-tier-price-period"><%= __('merchant_hub_text_27') %></span></div>
+            <ul class="mh-tier-features">
+              <li>
+                <span class="mh-check">✓</span>
+                <div class="mh-tier-text">
+                  <strong>100 Gallery Slots</strong><%= __('merchant_hub_text_28') %></div>
+              </li>
+              <li>
+                <span class="mh-check">✓</span>
+                <div class="mh-tier-text">
+                  <strong>Local Search</strong><%= __('merchant_hub_text_29') %></div>
+              </li>
+            </ul>
+            <button class="mh-btn-outline"><%= __('merchant_hub_text_30') %></button>
+          </div>
+
+          <!-- Tier 2 -->
+          <div class="mh-tier-card">
+            <h3><%= __('merchant_hub_text_31') %></h3>
+            <div class="mh-tier-price"><%= __('merchant_hub_text_32') %><span class="mh-tier-price-period"><%= __('merchant_hub_text_33') %></span></div>
+            <ul class="mh-tier-features">
+              <li>
+                <span class="mh-check">✓</span>
+                <div class="mh-tier-text">
+                  <strong>350 Gallery Slots</strong><%= __('merchant_hub_text_34') %></div>
+              </li>
+              <li>
+                <span class="mh-check">✓</span>
+                <div class="mh-tier-text">
+                  <strong>Multi-Media Showcase</strong><%= __('merchant_hub_text_35') %></div>
+              </li>
+              <li>
+                <span class="mh-check">✓</span>
+                <div class="mh-tier-text">
+                  <strong>Sentinel AI Optimization</strong><%= __('merchant_hub_text_36') %></div>
+              </li>
+              <li>
+                <span class="mh-check">✓</span>
+                <div class="mh-tier-text">
+                  <strong>Internal Chat Bridge</strong><%= __('merchant_hub_text_37') %></div>
+              </li>
+              <li>
+                <span class="mh-check">✓</span>
+                <div class="mh-tier-text">
+                  <strong>Integrated Transactions</strong><%= __('merchant_hub_text_38') %></div>
+              </li>
+            </ul>
+            <button class="mh-btn-full"><%= __('merchant_hub_text_39') %></button>
+          </div>
+
+          <!-- Tier 3 -->
+          <div class="mh-tier-card">
+            <h3><%= __('merchant_hub_text_40') %></h3>
+            <div class="mh-tier-price"><%= __('merchant_hub_text_41') %><span class="mh-tier-price-period"><%= __('merchant_hub_text_33') %></span></div>
+            <ul class="mh-tier-features">
+              <li>
+                <span class="mh-check">✓</span>
+                <div class="mh-tier-text">
+                  <strong>1000 Gallery Slots</strong><%= __('merchant_hub_text_42') %></div>
+              </li>
+              <li>
+                <span class="mh-check">✓</span>
+                <div class="mh-tier-text">
+                  <strong>24/7 AI Concierge</strong><%= __('merchant_hub_text_43') %></div>
+              </li>
+              <li>
+                <span class="mh-check">✓</span>
+                <div class="mh-tier-text">
+                  <strong>Personal Web Showroom</strong><%= __('merchant_hub_text_44') %></div>
+              </li>
+              <li>
+                <span class="mh-check">✓</span>
+                <div class="mh-tier-text">
+                  <strong>Elite Search Identity</strong><%= __('merchant_hub_text_45') %></div>
+              </li>
+              <li>
+                <span class="mh-check">✓</span>
+                <div class="mh-tier-text">
+                  <strong>All Pro Features</strong><%= __('merchant_hub_text_46') %></div>
+              </li>
+            </ul>
+            <button class="mh-btn-outline"><%= __('merchant_hub_text_47') %></button>
+          </div>
+
+        </div>
+
+        <!-- Horizontal Card -->
+        <div class="mh-horizontal-card">
+          <div class="mh-hc-content">
+            <h3><%= __('merchant_hub_text_48') %></h3>
+            <p class="mh-hc-subtitle"><%= __('merchant_hub_text_49') %></p>
+            <div class="mh-hc-body">
+              <p><%= __('merchant_hub_text_50') %></p>
+              <p><%= __('merchant_hub_text_51') %></p>
+            </div>
+          </div>
+          <div class="mh-hc-list">
+            <div class="mh-hc-list-item">
+              <strong>Active Storefronts Only</strong>
+              <span><%= __('merchant_hub_text_52') %></span>
+            </div>
+            <div class="mh-hc-list-item">
+              <strong>Guaranteed Responsiveness</strong>
+              <span><%= __('merchant_hub_text_53') %></span>
+            </div>
+            <div class="mh-hc-list-item">
+              <strong>A Trustworthy Ecosystem</strong>
+              <span><%= __('merchant_hub_text_54') %></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Built-In Features -->
+    <section class="mh-features">
+      <div class="mh-container">
+        <h2><%= __('merchant_hub_text_55') %></h2>
+        
+        <div class="mh-showcase-list">
+          <div class="mh-showcase-item">
+            <div class="mh-showcase-number">01</div>
+            <div class="mh-showcase-content">
+              <h4><%= __('merchant_hub_text_56') %></h4>
+              <p><%= __('merchant_hub_text_57') %></p>
+            </div>
+          </div>
+          <div class="mh-showcase-item">
+            <div class="mh-showcase-number">02</div>
+            <div class="mh-showcase-content">
+              <h4><%= __('merchant_hub_text_58') %></h4>
+              <p><%= __('merchant_hub_text_59') %></p>
+            </div>
+          </div>
+          <div class="mh-showcase-item">
+            <div class="mh-showcase-number">03</div>
+            <div class="mh-showcase-content">
+              <h4><%= __('merchant_hub_text_60') %></h4>
+              <p><%= __('merchant_hub_text_61') %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Call to Action Banner -->
+    <section class="mh-cta">
+      <h2><%= __('merchant_hub_text_62') %></h2>
+      <p><%= __('merchant_hub_text_63') %></p>
+      <button class="mh-btn-secondary"><%= __('merchant_hub_text_64') %></button>
+    </section>
+    <footer class="w-full bg-[#6f4627] px-6 md:px-12 py-12 md:py-16 border-t border-[#5c3a20] relative z-20 text-center md:text-left">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center md:items-start justify-between gap-10 md:gap-6 text-[#ffe3d1]">
+        
+        <!-- Brand & Tagline -->
+        <div class="flex flex-col items-center md:items-start gap-4 max-w-sm">
+          <div class="flex items-center gap-3">
+            <img src="/images/dietalase_icon.webp" alt="DiEtalase Logo" class="w-8 h-8 object-contain opacity-90" />
+            <h2 class="font-bold tracking-wide text-2xl text-[#ffe3d1]"><%= __('index_text_1') %></h2>
+          </div>
+          <p class="text-sm text-[#ffe3d1]/70 leading-relaxed italic"><%= __('index_text_132') %></p>
+        </div>
+        
+        <!-- Quick Links -->
+        <div class="flex flex-col items-center md:items-start gap-3">
+          <h3 class="font-bold uppercase tracking-wider text-xs text-[#ffe3d1]/50 mb-1"><%= __('index_text_133') %></h3>
+          <a href="#" class="text-sm hover:text-white text-[#ffe3d1]/80 transition text-decoration-none"><%= __('index_text_134') %></a>
+          <a href="#" class="text-sm hover:text-white text-[#ffe3d1]/80 transition text-decoration-none"><%= __('index_text_22') %></a>
+          <a href="#" class="text-sm hover:text-white text-[#ffe3d1]/80 transition text-decoration-none"><%= __('index_text_12') %></a>
+          <a href="#" class="text-sm hover:text-white text-[#ffe3d1]/80 transition text-decoration-none"><%= __('index_text_135') %></a>
+        </div>
+
+        <!-- Legal & Terms -->
+        <div class="flex flex-col items-center md:items-start gap-3">
+          <h3 class="font-bold uppercase tracking-wider text-xs text-[#ffe3d1]/50 mb-1"><%= __('index_text_136') %></h3>
+          <a href="#" class="text-sm hover:text-white text-[#ffe3d1]/80 transition text-decoration-none"><%= __('index_text_137') %></a>
+          <a href="#" class="text-sm hover:text-white text-[#ffe3d1]/80 transition text-decoration-none"><%= __('index_text_138') %></a>
+          <a href="#" class="text-sm hover:text-white text-[#ffe3d1]/80 transition text-decoration-none"><%= __('index_text_139') %></a>
+        </div>
+
+        <!-- Social & Copyright -->
+        <div class="flex flex-col items-center md:items-end gap-6">
+          <div class="flex gap-4">
+            <a href="#" class="text-[#ffe3d1]/70 hover:text-white transition">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+            </a>
+            <a href="#" class="text-[#ffe3d1]/70 hover:text-white transition">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+          </div>
+          <span class="text-xs text-[#ffe3d1]/50"><%= __('index_text_140') %></span>
+        </div>
+      </div>
+    </footer>    <!-- Language Selector Floating Widget -->
+    <div id="languageSelectorWrapper" class="fixed bottom-0 left-4 md:left-8 z-50 w-[120px] rounded-t-xl overflow-hidden shadow-[0_-4px_20px_rgba(0,0,0,0.2)] bg-[#5c3a20] border border-[#4a2e19] border-b-0 pointer-events-auto">
+      <!-- Expanding Drop-up Panel -->
+      <div id="languageOptionsPanel" class="w-full bg-[#5c3a20] flex flex-col justify-end" style="max-height: 0px; transition: max-height 0.3s ease-in-out;">
+        <div class="flex flex-col w-full text-sm font-medium text-[#ffe3d1]">
+          <button class="flex items-center gap-3 px-4 py-3 bg-[#6f4627] hover:bg-[#6f4627] transition-colors w-full text-left border-b border-[#4a2e19] outline-none cursor-pointer text-[#ffe3d1]">
+            <span class="text-lg leading-none">🇬🇧</span>
+            <span><%= __('index_text_141') %></span>
+          </button>
+          <button class="flex items-center gap-3 px-4 py-3 bg-[#5c3a20] hover:bg-[#6f4627] transition-colors w-full text-left border-b border-[#4a2e19] outline-none cursor-pointer text-[#ffe3d1]">
+            <span class="text-lg leading-none">🇮🇩</span>
+            <span><%= __('index_text_142') %></span>
+          </button>
+          <button class="flex items-center gap-3 px-4 py-3 bg-[#5c3a20] hover:bg-[#6f4627] transition-colors w-full text-left border-b border-[#4a2e19] outline-none cursor-pointer text-[#ffe3d1]">
+            <span class="text-lg leading-none">🇯🇵</span>
+            <span><%= __('index_text_143') %></span>
+          </button>
+          <button class="flex items-center gap-3 px-4 py-3 bg-[#5c3a20] hover:bg-[#6f4627] transition-colors w-full text-left border-b border-[#4a2e19] outline-none cursor-pointer text-[#ffe3d1]">
+            <span class="text-lg leading-none">🇵🇭</span>
+            <span><%= __('index_text_144') %></span>
+          </button>
+        </div>
+      </div>
+      <!-- Trigger Button -->
+      <button id="languageSelectorBtn" class="flex items-center justify-between w-full bg-[#5c3a20] hover:bg-[#6f4627] transition-colors px-4 py-3 pointer-events-auto border-none outline-none cursor-pointer" style="color: #ffe3d1;">
+        <div class="flex items-center gap-2 font-bold text-sm">
+          <span class="text-lg leading-none">🇬🇧</span>
+          <span><%= __('index_text_141') %></span>
+        </div>
+        <svg id="languageSelectorIcon" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" /></svg>
+      </button>
+    </div>
+    <script>
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const desktopMenuBtn = document.getElementById('desktopMenuBtn');
+      const mobileMenuGrid = document.getElementById('mobileMenuGrid');
+      const mobileMenuLinks = document.getElementById('mobileMenuLinks');
+      const mobileMenuIcon = document.getElementById('mobileMenuIcon');
+      const desktopMenuIcon = document.getElementById('desktopMenuIcon');
+      const mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
+      
+      let isMobileMenuOpen = false;
+
+      function closeMobileMenu() {
+        isMobileMenuOpen = false;
+        if (mobileMenuGrid) mobileMenuGrid.style.maxHeight = '0px';
+        if (mobileMenuLinks) {
+          mobileMenuLinks.classList.add('opacity-0');
+          mobileMenuLinks.classList.remove('opacity-100');
+        }
+        if (mobileMenuIcon) mobileMenuIcon.style.transform = 'rotate(0deg)';
+        if (desktopMenuIcon) desktopMenuIcon.style.transform = 'rotate(0deg)';
+        if (mobileMenuBackdrop) {
+          mobileMenuBackdrop.classList.add('opacity-0', 'pointer-events-none');
+          mobileMenuBackdrop.classList.remove('opacity-100', 'pointer-events-auto');
+        }
+      }
+
+      function openMobileMenu() {
+        isMobileMenuOpen = true;
+        if (mobileMenuGrid) mobileMenuGrid.style.maxHeight = '500px';
+        if (mobileMenuLinks) {
+          mobileMenuLinks.classList.remove('opacity-0');
+          mobileMenuLinks.classList.add('opacity-100');
+        }
+        if (mobileMenuIcon) mobileMenuIcon.style.transform = 'rotate(180deg)';
+        if (desktopMenuIcon) desktopMenuIcon.style.transform = 'rotate(180deg)';
+        if (mobileMenuBackdrop) {
+          mobileMenuBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+          mobileMenuBackdrop.classList.add('opacity-100', 'pointer-events-auto');
+        }
+      }
+
+      if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (isMobileMenuOpen) {
+            closeMobileMenu();
+          } else {
+            openMobileMenu();
+          }
+        });
+      }
+      
+      if (desktopMenuBtn) {
+        desktopMenuBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (isMobileMenuOpen) {
+            closeMobileMenu();
+          } else {
+            openMobileMenu();
+          }
+        });
+      }
+
+      if (mobileMenuBackdrop) {
+        mobileMenuBackdrop.addEventListener('click', closeMobileMenu);
+      }
+
+      const langBtn = document.getElementById('languageSelectorBtn');
+      const langPanel = document.getElementById('languageOptionsPanel');
+      const langIcon = document.getElementById('languageSelectorIcon');
+      let isLangOpen = false;
+      if(langBtn) {
+        langBtn.addEventListener('click', () => {
+          isLangOpen = !isLangOpen;
+          if (isLangOpen) {
+            langPanel.style.maxHeight = '200px';
+            langIcon.style.transform = 'rotate(180deg)';
+          } else {
+            langPanel.style.maxHeight = '0px';
+            langIcon.style.transform = 'rotate(0deg)';
+          }
+        });
+        document.addEventListener('click', (e) => {
+          if (isLangOpen && !document.getElementById('languageSelectorWrapper').contains(e.target)) {
+            isLangOpen = false;
+            langPanel.style.maxHeight = '0px';
+            langIcon.style.transform = 'rotate(0deg)';
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
